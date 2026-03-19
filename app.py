@@ -50,7 +50,7 @@ class ChatWorkflowRequest(BaseModel):
     session_id: str | None = None
 
 
-@app.post("/match")
+@app.post("/api/match")
 def match(payload: MatchRequest) -> dict[str, Any]:
     request_dict = payload.request
     request_id = request_dict.get("request_id", "unknown")
@@ -62,7 +62,7 @@ def match(payload: MatchRequest) -> dict[str, Any]:
     return result
 
 
-@app.post("/workflow")
+@app.post("/api/workflow")
 def workflow(payload: ChatWorkflowRequest) -> dict[str, Any]:
     try:
         result = workflow_service.run(payload.message.strip(), payload.session_id)

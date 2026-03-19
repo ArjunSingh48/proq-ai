@@ -2,3 +2,5 @@
 .claude/
 __pycache__/
 .env
+.vercel
+node_modules/
