@@ -1,0 +1,3338 @@
+{
+  "confusion_matrix": {
+    "TP": 73,
+    "FP": 103,
+    "FN": 5,
+    "TN": 39,
+    "total": 220
+  },
+  "metrics": {
+    "accuracy": 0.509,
+    "precision": 0.415,
+    "recall": 0.936,
+    "specificity": 0.275,
+    "f1": 0.575
+  },
+  "fp_rules": {
+    "ER-004": 74,
+    "ER-001": 19,
+    "ER-002": 13,
+    "AT-003": 6,
+    "AT-006": 6,
+    "CR-004": 6,
+    "CR-001": 5,
+    "CR-010": 5,
+    "CR-008": 5,
+    "CR-007": 5,
+    "CR-006": 4,
+    "CR-009": 4,
+    "AT-007": 3,
+    "AT-013": 3,
+    "AT-012": 3,
+    "AT-008": 2,
+    "CR-002": 2,
+    "AT-004": 2,
+    "AT-009": 2,
+    "CR-005": 1
+  },
+  "fp_blocking": {
+    "ER-004": 74,
+    "ER-001": 19
+  },
+  "fn_targets": {
+    "Procurement Manager": 2,
+    "Head of Category": 1
+  },
+  "fp_cases": [
+    {
+      "request_id": "REQ-000001",
+      "category": "IT Project Management Services / ES",
+      "our_status": "pending_approval",
+      "our_rules": [
+        "AT-003"
+      ],
+      "our_targets": [
+        "Head of Category"
+      ],
+      "our_blocking": [],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000008",
+      "category": "Cloud Networking / DE",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004"
+      ],
+      "our_targets": [
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Head of Strategic Sourcing"
+    },
+    {
+      "request_id": "REQ-000010",
+      "category": "Rugged Devices / IT",
+      "our_status": "pending_approval",
+      "our_rules": [
+        "AT-003"
+      ],
+      "our_targets": [
+        "Head of Category"
+      ],
+      "our_blocking": [],
+      "hist_target": "Head of Strategic Sourcing"
+    },
+    {
+      "request_id": "REQ-000011",
+      "category": "Smartphones / CH",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004",
+        "ER-002",
+        "AT-006"
+      ],
+      "our_targets": [
+        "Head of Category",
+        "Procurement Manager",
+        "Procurement Manager"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Procurement Manager"
+    },
+    {
+      "request_id": "REQ-000012",
+      "category": "Content Production Services / NL",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004"
+      ],
+      "our_targets": [
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000013",
+      "category": "Laptops / FR",
+      "our_status": "pending_approval",
+      "our_rules": [
+        "CR-001"
+      ],
+      "our_targets": [
+        "Procurement Manager"
+      ],
+      "our_blocking": [],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000016",
+      "category": "Storage Cabinets / NL",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004"
+      ],
+      "our_targets": [
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000017",
+      "category": "Storage Cabinets / DE",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004"
+      ],
+      "our_targets": [
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Procurement Manager"
+    },
+    {
+      "request_id": "REQ-000022",
+      "category": "Monitors / FR",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004"
+      ],
+      "our_targets": [
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Procurement Manager"
+    },
+    {
+      "request_id": "REQ-000023",
+      "category": "Cloud Security Services / AT",
+      "our_status": "needs_clarification",
+      "our_rules": [
+        "ER-001"
+      ],
+      "our_targets": [
+        "Requester Clarification"
+      ],
+      "our_blocking": [
+        "ER-001"
+      ],
+      "hist_target": "Procurement Manager"
+    },
+    {
+      "request_id": "REQ-000027",
+      "category": "Monitors / AT",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004"
+      ],
+      "our_targets": [
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000028",
+      "category": "Replacement / Break-Fix Pool Devices / IT",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004"
+      ],
+      "our_targets": [
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Head of Strategic Sourcing"
+    },
+    {
+      "request_id": "REQ-000030",
+      "category": "Workstations and Desks / BE",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004"
+      ],
+      "our_targets": [
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Head of Strategic Sourcing"
+    },
+    {
+      "request_id": "REQ-000032",
+      "category": "Reception and Lounge Furniture / FR",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "CR-006",
+        "ER-004"
+      ],
+      "our_targets": [
+        "Business Design Lead",
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000037",
+      "category": "Influencer Campaign Management / PL",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "CR-010",
+        "ER-004"
+      ],
+      "our_targets": [
+        "Marketing Governance Lead",
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000038",
+      "category": "Laptops / DE",
+      "our_status": "pending_approval",
+      "our_rules": [
+        "CR-001"
+      ],
+      "our_targets": [
+        "Procurement Manager"
+      ],
+      "our_blocking": [],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000039",
+      "category": "Smartphones / NL",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004"
+      ],
+      "our_targets": [
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000040",
+      "category": "IT Project Management Services / FR",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "AT-003",
+        "ER-004"
+      ],
+      "our_targets": [
+        "Head of Category",
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Head of Strategic Sourcing"
+    },
+    {
+      "request_id": "REQ-000041",
+      "category": "Content Production Services / BE",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004"
+      ],
+      "our_targets": [
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Procurement Manager"
+    },
+    {
+      "request_id": "REQ-000042",
+      "category": "Cloud Compute / PL",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-001",
+        "CR-004",
+        "ER-004"
+      ],
+      "our_targets": [
+        "Requester Clarification",
+        "Security and Compliance Review",
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-001",
+        "ER-004"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000044",
+      "category": "Influencer Campaign Management / FR",
+      "our_status": "needs_clarification",
+      "our_rules": [
+        "ER-001",
+        "CR-010"
+      ],
+      "our_targets": [
+        "Requester Clarification",
+        "Marketing Governance Lead"
+      ],
+      "our_blocking": [
+        "ER-001"
+      ],
+      "hist_target": "Head of Strategic Sourcing"
+    },
+    {
+      "request_id": "REQ-000047",
+      "category": "Desktop Workstations / CH",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004",
+        "ER-002",
+        "AT-008"
+      ],
+      "our_targets": [
+        "Head of Category",
+        "Procurement Manager",
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Procurement Manager"
+    },
+    {
+      "request_id": "REQ-000048",
+      "category": "Tablets / PL",
+      "our_status": "needs_clarification",
+      "our_rules": [
+        "ER-001"
+      ],
+      "our_targets": [
+        "Requester Clarification"
+      ],
+      "our_blocking": [
+        "ER-001"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000050",
+      "category": "Desktop Workstations / DE",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004"
+      ],
+      "our_targets": [
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Procurement Manager"
+    },
+    {
+      "request_id": "REQ-000052",
+      "category": "Cloud Security Services / PL",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-001",
+        "ER-004"
+      ],
+      "our_targets": [
+        "Requester Clarification",
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-001",
+        "ER-004"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000054",
+      "category": "Cloud Security Services / DE",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004"
+      ],
+      "our_targets": [
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Procurement Manager"
+    },
+    {
+      "request_id": "REQ-000055",
+      "category": "Tablets / AT",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004"
+      ],
+      "our_targets": [
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Head of Strategic Sourcing"
+    },
+    {
+      "request_id": "REQ-000056",
+      "category": "Monitors / CH",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004",
+        "AT-006"
+      ],
+      "our_targets": [
+        "Head of Category",
+        "Procurement Manager"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000061",
+      "category": "Marketing Analytics Services / IT",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004"
+      ],
+      "our_targets": [
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Procurement Manager"
+    },
+    {
+      "request_id": "REQ-000062",
+      "category": "Cloud Networking / CH",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004",
+        "ER-002",
+        "AT-006"
+      ],
+      "our_targets": [
+        "Head of Category",
+        "Procurement Manager",
+        "Procurement Manager"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000065",
+      "category": "Influencer Campaign Management / BE",
+      "our_status": "pending_approval",
+      "our_rules": [
+        "CR-010"
+      ],
+      "our_targets": [
+        "Marketing Governance Lead"
+      ],
+      "our_blocking": [],
+      "hist_target": "Head of Strategic Sourcing"
+    },
+    {
+      "request_id": "REQ-000066",
+      "category": "Search Engine Marketing (SEM) / NL",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "CR-009",
+        "ER-004"
+      ],
+      "our_targets": [
+        "Category Manager",
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000067",
+      "category": "Workstations and Desks / AT",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004"
+      ],
+      "our_targets": [
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000068",
+      "category": "Monitors / BE",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004"
+      ],
+      "our_targets": [
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Procurement Manager"
+    },
+    {
+      "request_id": "REQ-000070",
+      "category": "Social Media Advertising / IT",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-001",
+        "ER-004"
+      ],
+      "our_targets": [
+        "Requester Clarification",
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-001",
+        "ER-004"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000072",
+      "category": "Office Chairs / CH",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004",
+        "ER-002",
+        "AT-007"
+      ],
+      "our_targets": [
+        "Head of Category",
+        "Procurement Manager",
+        "Procurement Manager"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000073",
+      "category": "Office Chairs / PL",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004"
+      ],
+      "our_targets": [
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Head of Strategic Sourcing"
+    },
+    {
+      "request_id": "REQ-000074",
+      "category": "Content Production Services / NL",
+      "our_status": "needs_clarification",
+      "our_rules": [
+        "ER-001"
+      ],
+      "our_targets": [
+        "Requester Clarification"
+      ],
+      "our_blocking": [
+        "ER-001"
+      ],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000075",
+      "category": "Marketing Analytics Services / ES",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004"
+      ],
+      "our_targets": [
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Head of Strategic Sourcing"
+    },
+    {
+      "request_id": "REQ-000076",
+      "category": "Cloud Storage / NL",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004"
+      ],
+      "our_targets": [
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Head of Strategic Sourcing"
+    },
+    {
+      "request_id": "REQ-000082",
+      "category": "Cloud Storage / BE",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004"
+      ],
+      "our_targets": [
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Head of Strategic Sourcing"
+    },
+    {
+      "request_id": "REQ-000083",
+      "category": "Accessories Bundles / PL",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004"
+      ],
+      "our_targets": [
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Head of Strategic Sourcing"
+    },
+    {
+      "request_id": "REQ-000085",
+      "category": "Cloud Storage / AT",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-001",
+        "ER-004"
+      ],
+      "our_targets": [
+        "Requester Clarification",
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-001",
+        "ER-004"
+      ],
+      "hist_target": "Head of Strategic Sourcing"
+    },
+    {
+      "request_id": "REQ-000091",
+      "category": "Storage Cabinets / PL",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004"
+      ],
+      "our_targets": [
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Head of Strategic Sourcing"
+    },
+    {
+      "request_id": "REQ-000094",
+      "category": "Replacement / Break-Fix Pool Devices / DE",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004"
+      ],
+      "our_targets": [
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000097",
+      "category": "Meeting Room Furniture / IT",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-001",
+        "ER-004"
+      ],
+      "our_targets": [
+        "Requester Clarification",
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-001",
+        "ER-004"
+      ],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000098",
+      "category": "Desktop Workstations / ES",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004"
+      ],
+      "our_targets": [
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Procurement Manager"
+    },
+    {
+      "request_id": "REQ-000101",
+      "category": "Search Engine Marketing (SEM) / BE",
+      "our_status": "pending_approval",
+      "our_rules": [
+        "CR-009"
+      ],
+      "our_targets": [
+        "Category Manager"
+      ],
+      "our_blocking": [],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000102",
+      "category": "Cloud Storage / FR",
+      "our_status": "needs_clarification",
+      "our_rules": [
+        "ER-001"
+      ],
+      "our_targets": [
+        "Requester Clarification"
+      ],
+      "our_blocking": [
+        "ER-001"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000103",
+      "category": "Cybersecurity Advisory / IT",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "CR-008",
+        "ER-004"
+      ],
+      "our_targets": [
+        "Category Manager",
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000104",
+      "category": "Cloud Compute / CH",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "CR-004",
+        "ER-001",
+        "ER-004"
+      ],
+      "our_targets": [
+        "Security and Compliance Review",
+        "Requester Clarification",
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-001",
+        "ER-004"
+      ],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000110",
+      "category": "Replacement / Break-Fix Pool Devices / CH",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004",
+        "ER-002",
+        "AT-007"
+      ],
+      "our_targets": [
+        "Head of Category",
+        "Procurement Manager",
+        "Procurement Manager"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Head of Strategic Sourcing"
+    },
+    {
+      "request_id": "REQ-000112",
+      "category": "Laptops / DE",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "CR-001",
+        "ER-004"
+      ],
+      "our_targets": [
+        "Procurement Manager",
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Procurement Manager"
+    },
+    {
+      "request_id": "REQ-000113",
+      "category": "Search Engine Marketing (SEM) / FR",
+      "our_status": "pending_approval",
+      "our_rules": [
+        "CR-009"
+      ],
+      "our_targets": [
+        "Category Manager"
+      ],
+      "our_blocking": [],
+      "hist_target": "Procurement Manager"
+    },
+    {
+      "request_id": "REQ-000114",
+      "category": "Managed Cloud Platform Services / PL",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-001",
+        "ER-004"
+      ],
+      "our_targets": [
+        "Requester Clarification",
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-001",
+        "ER-004"
+      ],
+      "hist_target": "Head of Strategic Sourcing"
+    },
+    {
+      "request_id": "REQ-000116",
+      "category": "Managed Cloud Platform Services / CH",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004",
+        "AT-008",
+        "CR-005"
+      ],
+      "our_targets": [
+        "Head of Category",
+        "Head of Category",
+        "Security Architecture Team"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000117",
+      "category": "Reception and Lounge Furniture / DE",
+      "our_status": "pending_approval",
+      "our_rules": [
+        "CR-006"
+      ],
+      "our_targets": [
+        "Business Design Lead"
+      ],
+      "our_blocking": [],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000118",
+      "category": "Content Production Services / IT",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004"
+      ],
+      "our_targets": [
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000120",
+      "category": "Meeting Room Furniture / NL",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004"
+      ],
+      "our_targets": [
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Head of Strategic Sourcing"
+    },
+    {
+      "request_id": "REQ-000121",
+      "category": "Software Development Services / BE",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "CR-007",
+        "ER-004"
+      ],
+      "our_targets": [
+        "Category Manager",
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000122",
+      "category": "Search Engine Marketing (SEM) / ES",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "CR-009",
+        "ER-004"
+      ],
+      "our_targets": [
+        "Category Manager",
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000123",
+      "category": "Laptops / BE",
+      "our_status": "pending_approval",
+      "our_rules": [
+        "CR-001"
+      ],
+      "our_targets": [
+        "Procurement Manager"
+      ],
+      "our_blocking": [],
+      "hist_target": "Procurement Manager"
+    },
+    {
+      "request_id": "REQ-000124",
+      "category": "Mobile Workstations / PL",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "CR-002",
+        "ER-004"
+      ],
+      "our_targets": [
+        "Engineering / CAD Lead",
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000125",
+      "category": "Office Chairs / CH",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004",
+        "AT-006"
+      ],
+      "our_targets": [
+        "Head of Category",
+        "Procurement Manager"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Procurement Manager"
+    },
+    {
+      "request_id": "REQ-000126",
+      "category": "Cloud Networking / PL",
+      "our_status": "needs_clarification",
+      "our_rules": [
+        "ER-001"
+      ],
+      "our_targets": [
+        "Requester Clarification"
+      ],
+      "our_blocking": [
+        "ER-001"
+      ],
+      "hist_target": "Head of Strategic Sourcing"
+    },
+    {
+      "request_id": "REQ-000129",
+      "category": "Cloud Compute / FR",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004"
+      ],
+      "our_targets": [
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000130",
+      "category": "Smartphones / AT",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004"
+      ],
+      "our_targets": [
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Head of Strategic Sourcing"
+    },
+    {
+      "request_id": "REQ-000131",
+      "category": "Accessories Bundles / NL",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004"
+      ],
+      "our_targets": [
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000133",
+      "category": "Cybersecurity Advisory / AT",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "AT-003",
+        "CR-008",
+        "ER-004"
+      ],
+      "our_targets": [
+        "Head of Category",
+        "Category Manager",
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Procurement Manager"
+    },
+    {
+      "request_id": "REQ-000135",
+      "category": "Reception and Lounge Furniture / CH",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-001",
+        "ER-004",
+        "ER-002",
+        "AT-006",
+        "CR-006"
+      ],
+      "our_targets": [
+        "Requester Clarification",
+        "Head of Category",
+        "Procurement Manager",
+        "Procurement Manager",
+        "Business Design Lead"
+      ],
+      "our_blocking": [
+        "ER-001",
+        "ER-004"
+      ],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000136",
+      "category": "Software Development Services / BE",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "CR-007",
+        "ER-004"
+      ],
+      "our_targets": [
+        "Category Manager",
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Procurement Manager"
+    },
+    {
+      "request_id": "REQ-000137",
+      "category": "Managed Cloud Platform Services / PL",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004"
+      ],
+      "our_targets": [
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000139",
+      "category": "Tablets / AT",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004"
+      ],
+      "our_targets": [
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Head of Strategic Sourcing"
+    },
+    {
+      "request_id": "REQ-000141",
+      "category": "Cloud Compute / DE",
+      "our_status": "pending_approval",
+      "our_rules": [
+        "CR-004"
+      ],
+      "our_targets": [
+        "Security and Compliance Review"
+      ],
+      "our_blocking": [],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000142",
+      "category": "Smartphones / AT",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "AT-004",
+        "ER-004"
+      ],
+      "our_targets": [
+        "Head of Strategic Sourcing",
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Head of Strategic Sourcing"
+    },
+    {
+      "request_id": "REQ-000144",
+      "category": "Software Development Services / BE",
+      "our_status": "pending_approval",
+      "our_rules": [
+        "CR-007"
+      ],
+      "our_targets": [
+        "Category Manager"
+      ],
+      "our_blocking": [],
+      "hist_target": "Head of Strategic Sourcing"
+    },
+    {
+      "request_id": "REQ-000145",
+      "category": "Cybersecurity Advisory / PL",
+      "our_status": "pending_approval",
+      "our_rules": [
+        "AT-003",
+        "CR-008"
+      ],
+      "our_targets": [
+        "Head of Category",
+        "Category Manager"
+      ],
+      "our_blocking": [],
+      "hist_target": "Procurement Manager"
+    },
+    {
+      "request_id": "REQ-000146",
+      "category": "Software Development Services / FR",
+      "our_status": "pending_approval",
+      "our_rules": [
+        "CR-007"
+      ],
+      "our_targets": [
+        "Category Manager"
+      ],
+      "our_blocking": [],
+      "hist_target": "Procurement Manager"
+    },
+    {
+      "request_id": "REQ-000147",
+      "category": "Cybersecurity Advisory / CH",
+      "our_status": "pending_approval",
+      "our_rules": [
+        "ER-002",
+        "AT-009",
+        "CR-008"
+      ],
+      "our_targets": [
+        "Procurement Manager",
+        "Head of Strategic Sourcing",
+        "Category Manager"
+      ],
+      "our_blocking": [],
+      "hist_target": "Procurement Manager"
+    },
+    {
+      "request_id": "REQ-000149",
+      "category": "Software Development Services / IT",
+      "our_status": "pending_approval",
+      "our_rules": [
+        "CR-007"
+      ],
+      "our_targets": [
+        "Category Manager"
+      ],
+      "our_blocking": [],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000153",
+      "category": "Rugged Devices / CH",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004",
+        "ER-002",
+        "AT-007"
+      ],
+      "our_targets": [
+        "Head of Category",
+        "Procurement Manager",
+        "Procurement Manager"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Head of Strategic Sourcing"
+    },
+    {
+      "request_id": "REQ-000154",
+      "category": "Meeting Room Furniture / BE",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004"
+      ],
+      "our_targets": [
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000156",
+      "category": "Reception and Lounge Furniture / FR",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "CR-006",
+        "ER-004"
+      ],
+      "our_targets": [
+        "Business Design Lead",
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000159",
+      "category": "Mobile Workstations / CH",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004",
+        "ER-002",
+        "AT-009",
+        "CR-002"
+      ],
+      "our_targets": [
+        "Head of Category",
+        "Procurement Manager",
+        "Head of Strategic Sourcing",
+        "Engineering / CAD Lead"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000163",
+      "category": "Laptops / FR",
+      "our_status": "pending_approval",
+      "our_rules": [
+        "CR-001"
+      ],
+      "our_targets": [
+        "Procurement Manager"
+      ],
+      "our_blocking": [],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000164",
+      "category": "Smartphones / BE",
+      "our_status": "pending_approval",
+      "our_rules": [
+        "AT-004"
+      ],
+      "our_targets": [
+        "Head of Strategic Sourcing"
+      ],
+      "our_blocking": [],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000167",
+      "category": "Smartphones / BE",
+      "our_status": "pending_approval",
+      "our_rules": [
+        "AT-003"
+      ],
+      "our_targets": [
+        "Head of Category"
+      ],
+      "our_blocking": [],
+      "hist_target": "Head of Strategic Sourcing"
+    },
+    {
+      "request_id": "REQ-000168",
+      "category": "Cloud Architecture Consulting / DE",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004"
+      ],
+      "our_targets": [
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000169",
+      "category": "Influencer Campaign Management / AT",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "CR-010",
+        "ER-004"
+      ],
+      "our_targets": [
+        "Marketing Governance Lead",
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000173",
+      "category": "Cloud Networking / BE",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004"
+      ],
+      "our_targets": [
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Procurement Manager"
+    },
+    {
+      "request_id": "REQ-000174",
+      "category": "Cloud Compute / ES",
+      "our_status": "needs_clarification",
+      "our_rules": [
+        "CR-004",
+        "ER-001"
+      ],
+      "our_targets": [
+        "Security and Compliance Review",
+        "Requester Clarification"
+      ],
+      "our_blocking": [
+        "ER-001"
+      ],
+      "hist_target": "Procurement Manager"
+    },
+    {
+      "request_id": "REQ-000176",
+      "category": "Workstations and Desks / PL",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004"
+      ],
+      "our_targets": [
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000179",
+      "category": "Meeting Room Furniture / CH",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004",
+        "AT-006"
+      ],
+      "our_targets": [
+        "Head of Category",
+        "Procurement Manager"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000180",
+      "category": "Accessories Bundles / DE",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004"
+      ],
+      "our_targets": [
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000255",
+      "category": "IT Project Management Services / CA",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "AT-013",
+        "ER-001",
+        "ER-004"
+      ],
+      "our_targets": [
+        "Procurement Manager",
+        "Requester Clarification",
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-001",
+        "ER-004"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000263",
+      "category": "Cloud Compute / UAE",
+      "our_status": "needs_clarification",
+      "our_rules": [
+        "AT-013",
+        "CR-004",
+        "ER-001"
+      ],
+      "our_targets": [
+        "Procurement Manager",
+        "Security and Compliance Review",
+        "Requester Clarification"
+      ],
+      "our_blocking": [
+        "ER-001"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000273",
+      "category": "Cloud Architecture Consulting / US",
+      "our_status": "needs_clarification",
+      "our_rules": [
+        "ER-001"
+      ],
+      "our_targets": [
+        "Requester Clarification"
+      ],
+      "our_blocking": [
+        "ER-001"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000279",
+      "category": "Cybersecurity Advisory / SG",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004",
+        "ER-002",
+        "AT-012",
+        "CR-008"
+      ],
+      "our_targets": [
+        "Head of Category",
+        "Procurement Manager",
+        "Procurement Manager",
+        "Category Manager"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000280",
+      "category": "Laptops / AU",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004",
+        "ER-002",
+        "AT-012"
+      ],
+      "our_targets": [
+        "Head of Category",
+        "Procurement Manager",
+        "Procurement Manager"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000281",
+      "category": "Meeting Room Furniture / US",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004"
+      ],
+      "our_targets": [
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000291",
+      "category": "Cloud Security Services / IN",
+      "our_status": "pending_approval",
+      "our_rules": [
+        "ER-002"
+      ],
+      "our_targets": [
+        "Procurement Manager"
+      ],
+      "our_blocking": [],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000301",
+      "category": "Influencer Campaign Management / AU",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004",
+        "ER-002",
+        "AT-012",
+        "CR-010"
+      ],
+      "our_targets": [
+        "Head of Category",
+        "Procurement Manager",
+        "Procurement Manager",
+        "Marketing Governance Lead"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000302",
+      "category": "Cloud Compute / ZA",
+      "our_status": "needs_clarification",
+      "our_rules": [
+        "AT-013",
+        "CR-004",
+        "ER-001"
+      ],
+      "our_targets": [
+        "Procurement Manager",
+        "Security and Compliance Review",
+        "Requester Clarification"
+      ],
+      "our_blocking": [
+        "ER-001"
+      ],
+      "hist_target": ""
+    }
+  ],
+  "fn_cases": [
+    {
+      "request_id": "REQ-000033",
+      "category": "Office Chairs / DE",
+      "our_status": "ready_to_award",
+      "our_rules": [],
+      "our_targets": [],
+      "our_blocking": [],
+      "hist_target": "Procurement Manager"
+    },
+    {
+      "request_id": "REQ-000043",
+      "category": "Office Chairs / BE",
+      "our_status": "ready_to_award",
+      "our_rules": [],
+      "our_targets": [],
+      "our_blocking": [],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000166",
+      "category": "Content Production Services / FR",
+      "our_status": "ready_to_award",
+      "our_rules": [],
+      "our_targets": [],
+      "our_blocking": [],
+      "hist_target": "Procurement Manager"
+    },
+    {
+      "request_id": "REQ-000171",
+      "category": "Desktop Workstations / FR",
+      "our_status": "ready_to_award",
+      "our_rules": [],
+      "our_targets": [],
+      "our_blocking": [],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000288",
+      "category": "Cloud Storage / SG",
+      "our_status": "ready_to_award",
+      "our_rules": [],
+      "our_targets": [],
+      "our_blocking": [],
+      "hist_target": ""
+    }
+  ],
+  "tp_cases": [
+    {
+      "request_id": "REQ-000003",
+      "category": "Managed Cloud Platform Services / FR",
+      "our_status": "pending_approval",
+      "our_rules": [
+        "CR-005"
+      ],
+      "our_targets": [
+        "Security Architecture Team"
+      ],
+      "our_blocking": [],
+      "hist_target": "Procurement Manager"
+    },
+    {
+      "request_id": "REQ-000004",
+      "category": "Docking Stations / DE",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-001",
+        "ER-004"
+      ],
+      "our_targets": [
+        "Requester Clarification",
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-001",
+        "ER-004"
+      ],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000006",
+      "category": "Replacement / Break-Fix Pool Devices / ES",
+      "our_status": "pending_approval",
+      "our_rules": [
+        "ER-002"
+      ],
+      "our_targets": [
+        "Procurement Manager"
+      ],
+      "our_blocking": [],
+      "hist_target": "Head of Strategic Sourcing"
+    },
+    {
+      "request_id": "REQ-000018",
+      "category": "Marketing Analytics Services / CH",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004",
+        "ER-002",
+        "AT-009"
+      ],
+      "our_targets": [
+        "Head of Category",
+        "Procurement Manager",
+        "Head of Strategic Sourcing"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000021",
+      "category": "Accessories Bundles / FR",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-002",
+        "ER-004"
+      ],
+      "our_targets": [
+        "Procurement Manager",
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000024",
+      "category": "Workstations and Desks / NL",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-001",
+        "ER-004"
+      ],
+      "our_targets": [
+        "Requester Clarification",
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-001",
+        "ER-004"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000025",
+      "category": "Rugged Devices / FR",
+      "our_status": "pending_approval",
+      "our_rules": [
+        "AT-003"
+      ],
+      "our_targets": [
+        "Head of Category"
+      ],
+      "our_blocking": [],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000026",
+      "category": "Office Chairs / NL",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-001",
+        "ER-004"
+      ],
+      "our_targets": [
+        "Requester Clarification",
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-001",
+        "ER-004"
+      ],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000029",
+      "category": "IT Project Management Services / DE",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "AT-003",
+        "ER-004"
+      ],
+      "our_targets": [
+        "Head of Category",
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Head of Strategic Sourcing"
+    },
+    {
+      "request_id": "REQ-000036",
+      "category": "IT Project Management Services / CH",
+      "our_status": "needs_clarification",
+      "our_rules": [
+        "ER-002",
+        "AT-009",
+        "ER-001"
+      ],
+      "our_targets": [
+        "Procurement Manager",
+        "Head of Strategic Sourcing",
+        "Requester Clarification"
+      ],
+      "our_blocking": [
+        "ER-001"
+      ],
+      "hist_target": "Head of Strategic Sourcing"
+    },
+    {
+      "request_id": "REQ-000049",
+      "category": "Rugged Devices / IT",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004"
+      ],
+      "our_targets": [
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000051",
+      "category": "Smartphones / IT",
+      "our_status": "needs_clarification",
+      "our_rules": [
+        "ER-001"
+      ],
+      "our_targets": [
+        "Requester Clarification"
+      ],
+      "our_blocking": [
+        "ER-001"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000053",
+      "category": "Data Engineering Services / IT",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-001",
+        "ER-004"
+      ],
+      "our_targets": [
+        "Requester Clarification",
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-001",
+        "ER-004"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000058",
+      "category": "Rugged Devices / CH",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004",
+        "AT-008"
+      ],
+      "our_targets": [
+        "Head of Category",
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000063",
+      "category": "Cloud Compute / IT",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-002",
+        "ER-004"
+      ],
+      "our_targets": [
+        "Procurement Manager",
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000071",
+      "category": "Monitors / DE",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004"
+      ],
+      "our_targets": [
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000079",
+      "category": "Cloud Architecture Consulting / CH",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-002",
+        "ER-004"
+      ],
+      "our_targets": [
+        "Procurement Manager",
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Procurement Manager"
+    },
+    {
+      "request_id": "REQ-000080",
+      "category": "Workstations and Desks / PL",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004"
+      ],
+      "our_targets": [
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000081",
+      "category": "Data Engineering Services / PL",
+      "our_status": "needs_clarification",
+      "our_rules": [
+        "ER-002",
+        "ER-001"
+      ],
+      "our_targets": [
+        "Procurement Manager",
+        "Requester Clarification"
+      ],
+      "our_blocking": [
+        "ER-001"
+      ],
+      "hist_target": "Head of Strategic Sourcing"
+    },
+    {
+      "request_id": "REQ-000087",
+      "category": "Reception and Lounge Furniture / CH",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004",
+        "ER-002",
+        "AT-008",
+        "CR-006"
+      ],
+      "our_targets": [
+        "Head of Category",
+        "Procurement Manager",
+        "Head of Category",
+        "Business Design Lead"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Head of Strategic Sourcing"
+    },
+    {
+      "request_id": "REQ-000089",
+      "category": "Data Engineering Services / ES",
+      "our_status": "needs_clarification",
+      "our_rules": [
+        "ER-001"
+      ],
+      "our_targets": [
+        "Requester Clarification"
+      ],
+      "our_blocking": [
+        "ER-001"
+      ],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000090",
+      "category": "IT Project Management Services / BE",
+      "our_status": "pending_approval",
+      "our_rules": [
+        "AT-004"
+      ],
+      "our_targets": [
+        "Head of Strategic Sourcing"
+      ],
+      "our_blocking": [],
+      "hist_target": "Procurement Manager"
+    },
+    {
+      "request_id": "REQ-000092",
+      "category": "Reception and Lounge Furniture / NL",
+      "our_status": "needs_clarification",
+      "our_rules": [
+        "CR-006",
+        "ER-001"
+      ],
+      "our_targets": [
+        "Business Design Lead",
+        "Requester Clarification"
+      ],
+      "our_blocking": [
+        "ER-001"
+      ],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000100",
+      "category": "Reception and Lounge Furniture / DE",
+      "our_status": "pending_approval",
+      "our_rules": [
+        "ER-002",
+        "CR-006"
+      ],
+      "our_targets": [
+        "Procurement Manager",
+        "Business Design Lead"
+      ],
+      "our_blocking": [],
+      "hist_target": "Procurement Manager"
+    },
+    {
+      "request_id": "REQ-000105",
+      "category": "Laptops / ES",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-001",
+        "ER-004"
+      ],
+      "our_targets": [
+        "Requester Clarification",
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-001",
+        "ER-004"
+      ],
+      "hist_target": "Head of Strategic Sourcing"
+    },
+    {
+      "request_id": "REQ-000107",
+      "category": "Cybersecurity Advisory / IT",
+      "our_status": "needs_clarification",
+      "our_rules": [
+        "AT-003",
+        "CR-008",
+        "ER-001"
+      ],
+      "our_targets": [
+        "Head of Category",
+        "Category Manager",
+        "Requester Clarification"
+      ],
+      "our_blocking": [
+        "ER-001"
+      ],
+      "hist_target": "Procurement Manager"
+    },
+    {
+      "request_id": "REQ-000108",
+      "category": "Accessories Bundles / NL",
+      "our_status": "pending_approval",
+      "our_rules": [
+        "ER-002"
+      ],
+      "our_targets": [
+        "Procurement Manager"
+      ],
+      "our_blocking": [],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000109",
+      "category": "Accessories Bundles / DE",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-001",
+        "ER-004"
+      ],
+      "our_targets": [
+        "Requester Clarification",
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-001",
+        "ER-004"
+      ],
+      "hist_target": "Procurement Manager"
+    },
+    {
+      "request_id": "REQ-000115",
+      "category": "Search Engine Marketing (SEM) / AT",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-002",
+        "CR-009",
+        "ER-001",
+        "ER-004"
+      ],
+      "our_targets": [
+        "Procurement Manager",
+        "Category Manager",
+        "Requester Clarification",
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-001",
+        "ER-004"
+      ],
+      "hist_target": "Procurement Manager"
+    },
+    {
+      "request_id": "REQ-000119",
+      "category": "Influencer Campaign Management / AT",
+      "our_status": "needs_clarification",
+      "our_rules": [
+        "AT-003",
+        "CR-010",
+        "ER-001"
+      ],
+      "our_targets": [
+        "Head of Category",
+        "Marketing Governance Lead",
+        "Requester Clarification"
+      ],
+      "our_blocking": [
+        "ER-001"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000128",
+      "category": "Mobile Workstations / BE",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "CR-002",
+        "ER-001",
+        "ER-004"
+      ],
+      "our_targets": [
+        "Engineering / CAD Lead",
+        "Requester Clarification",
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-001",
+        "ER-004"
+      ],
+      "hist_target": "Procurement Manager"
+    },
+    {
+      "request_id": "REQ-000132",
+      "category": "Marketing Analytics Services / NL",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004"
+      ],
+      "our_targets": [
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000134",
+      "category": "Content Production Services / BE",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-001",
+        "ER-004"
+      ],
+      "our_targets": [
+        "Requester Clarification",
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-001",
+        "ER-004"
+      ],
+      "hist_target": "Head of Strategic Sourcing"
+    },
+    {
+      "request_id": "REQ-000138",
+      "category": "Cloud Compute / ES",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004"
+      ],
+      "our_targets": [
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000148",
+      "category": "Docking Stations / ES",
+      "our_status": "pending_approval",
+      "our_rules": [
+        "ER-002"
+      ],
+      "our_targets": [
+        "Procurement Manager"
+      ],
+      "our_blocking": [],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000150",
+      "category": "Cybersecurity Advisory / CH",
+      "our_status": "needs_clarification",
+      "our_rules": [
+        "ER-002",
+        "AT-009",
+        "CR-008",
+        "ER-001"
+      ],
+      "our_targets": [
+        "Procurement Manager",
+        "Head of Strategic Sourcing",
+        "Category Manager",
+        "Requester Clarification"
+      ],
+      "our_blocking": [
+        "ER-001"
+      ],
+      "hist_target": "Head of Strategic Sourcing"
+    },
+    {
+      "request_id": "REQ-000152",
+      "category": "Smartphones / PL",
+      "our_status": "pending_approval",
+      "our_rules": [
+        "ER-002",
+        "AT-003"
+      ],
+      "our_targets": [
+        "Procurement Manager",
+        "Head of Category"
+      ],
+      "our_blocking": [],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000160",
+      "category": "Social Media Advertising / BE",
+      "our_status": "needs_clarification",
+      "our_rules": [
+        "ER-002",
+        "ER-001"
+      ],
+      "our_targets": [
+        "Procurement Manager",
+        "Requester Clarification"
+      ],
+      "our_blocking": [
+        "ER-001"
+      ],
+      "hist_target": "Head of Strategic Sourcing"
+    },
+    {
+      "request_id": "REQ-000172",
+      "category": "Managed Cloud Platform Services / IT",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "CR-005",
+        "ER-004"
+      ],
+      "our_targets": [
+        "Security Architecture Team",
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": "Head of Strategic Sourcing"
+    },
+    {
+      "request_id": "REQ-000177",
+      "category": "Managed Cloud Platform Services / NL",
+      "our_status": "pending_approval",
+      "our_rules": [
+        "CR-005"
+      ],
+      "our_targets": [
+        "Security Architecture Team"
+      ],
+      "our_blocking": [],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000178",
+      "category": "Mobile Workstations / FR",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "CR-002",
+        "ER-001",
+        "ER-004"
+      ],
+      "our_targets": [
+        "Engineering / CAD Lead",
+        "Requester Clarification",
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-001",
+        "ER-004"
+      ],
+      "hist_target": "Head of Strategic Sourcing"
+    },
+    {
+      "request_id": "REQ-000248",
+      "category": "Laptops / US",
+      "our_status": "pending_approval",
+      "our_rules": [
+        "AT-013",
+        "CR-001"
+      ],
+      "our_targets": [
+        "Procurement Manager",
+        "Procurement Manager"
+      ],
+      "our_blocking": [],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000249",
+      "category": "Cloud Compute / US",
+      "our_status": "needs_clarification",
+      "our_rules": [
+        "ER-001"
+      ],
+      "our_targets": [
+        "Requester Clarification"
+      ],
+      "our_blocking": [
+        "ER-001"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000250",
+      "category": "Office Chairs / CA",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "AT-013",
+        "ER-004"
+      ],
+      "our_targets": [
+        "Procurement Manager",
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000251",
+      "category": "Software Development Services / US",
+      "our_status": "pending_approval",
+      "our_rules": [
+        "AT-014",
+        "CR-007"
+      ],
+      "our_targets": [
+        "Procurement Manager",
+        "Category Manager"
+      ],
+      "our_blocking": [],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000252",
+      "category": "Social Media Advertising / BR",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "AT-013",
+        "ER-001",
+        "ER-004"
+      ],
+      "our_targets": [
+        "Procurement Manager",
+        "Requester Clarification",
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-001",
+        "ER-004"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000253",
+      "category": "Desktop Workstations / MX",
+      "our_status": "pending_approval",
+      "our_rules": [
+        "AT-013"
+      ],
+      "our_targets": [
+        "Procurement Manager"
+      ],
+      "our_blocking": [],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000254",
+      "category": "Marketing Analytics Services / US",
+      "our_status": "pending_approval",
+      "our_rules": [
+        "AT-013"
+      ],
+      "our_targets": [
+        "Procurement Manager"
+      ],
+      "our_blocking": [],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000257",
+      "category": "Workstations and Desks / AU",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004",
+        "ER-002",
+        "AT-013"
+      ],
+      "our_targets": [
+        "Head of Category",
+        "Procurement Manager",
+        "Procurement Manager"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000258",
+      "category": "Data Engineering Services / IN",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004",
+        "ER-002",
+        "AT-013"
+      ],
+      "our_targets": [
+        "Head of Category",
+        "Procurement Manager",
+        "Procurement Manager"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000259",
+      "category": "Search Engine Marketing (SEM) / JP",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004",
+        "ER-002",
+        "AT-013",
+        "CR-009"
+      ],
+      "our_targets": [
+        "Head of Category",
+        "Procurement Manager",
+        "Procurement Manager",
+        "Category Manager"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000260",
+      "category": "Laptops / AU",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004",
+        "ER-002",
+        "AT-013",
+        "CR-001"
+      ],
+      "our_targets": [
+        "Head of Category",
+        "Procurement Manager",
+        "Procurement Manager",
+        "Procurement Manager"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000261",
+      "category": "Cloud Security Services / IN",
+      "our_status": "pending_approval",
+      "our_rules": [
+        "ER-002"
+      ],
+      "our_targets": [
+        "Procurement Manager"
+      ],
+      "our_blocking": [],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000262",
+      "category": "Cybersecurity Advisory / SG",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004",
+        "ER-002",
+        "AT-014",
+        "CR-008"
+      ],
+      "our_targets": [
+        "Head of Category",
+        "Procurement Manager",
+        "Procurement Manager",
+        "Category Manager"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000264",
+      "category": "Office Chairs / ZA",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004",
+        "ER-002",
+        "AT-013"
+      ],
+      "our_targets": [
+        "Head of Category",
+        "Procurement Manager",
+        "Procurement Manager"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000265",
+      "category": "Cloud Architecture Consulting / UAE",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004",
+        "ER-002",
+        "AT-013"
+      ],
+      "our_targets": [
+        "Head of Category",
+        "Procurement Manager",
+        "Procurement Manager"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000266",
+      "category": "Content Production Services / ZA",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004",
+        "ER-002",
+        "AT-013"
+      ],
+      "our_targets": [
+        "Head of Category",
+        "Procurement Manager",
+        "Procurement Manager"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000274",
+      "category": "Laptops / US",
+      "our_status": "pending_approval",
+      "our_rules": [
+        "AT-013",
+        "CR-001"
+      ],
+      "our_targets": [
+        "Procurement Manager",
+        "Procurement Manager"
+      ],
+      "our_blocking": [],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000275",
+      "category": "Office Chairs / AU",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004",
+        "ER-002",
+        "AT-013"
+      ],
+      "our_targets": [
+        "Head of Category",
+        "Procurement Manager",
+        "Procurement Manager"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000276",
+      "category": "Data Engineering Services / SG",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004",
+        "ER-002",
+        "AT-012"
+      ],
+      "our_targets": [
+        "Head of Category",
+        "Procurement Manager",
+        "Procurement Manager"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000277",
+      "category": "Social Media Advertising / US",
+      "our_status": "needs_clarification",
+      "our_rules": [
+        "AT-014",
+        "ER-001"
+      ],
+      "our_targets": [
+        "Procurement Manager",
+        "Requester Clarification"
+      ],
+      "our_blocking": [
+        "ER-001"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000289",
+      "category": "Content Production Services / BR",
+      "our_status": "needs_clarification",
+      "our_rules": [
+        "AT-014",
+        "ER-001"
+      ],
+      "our_targets": [
+        "Procurement Manager",
+        "Requester Clarification"
+      ],
+      "our_blocking": [
+        "ER-001"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000290",
+      "category": "IT Project Management Services / JP",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004",
+        "ER-002",
+        "AT-013"
+      ],
+      "our_targets": [
+        "Head of Category",
+        "Procurement Manager",
+        "Procurement Manager"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000292",
+      "category": "Cybersecurity Advisory / US",
+      "our_status": "pending_approval",
+      "our_rules": [
+        "ER-002",
+        "AT-013",
+        "CR-008"
+      ],
+      "our_targets": [
+        "Procurement Manager",
+        "Procurement Manager",
+        "Category Manager"
+      ],
+      "our_blocking": [],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000293",
+      "category": "Office Chairs / US",
+      "our_status": "pending_approval",
+      "our_rules": [
+        "AT-013"
+      ],
+      "our_targets": [
+        "Procurement Manager"
+      ],
+      "our_blocking": [],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000294",
+      "category": "Laptops / AU",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004",
+        "ER-002",
+        "AT-013",
+        "CR-001"
+      ],
+      "our_targets": [
+        "Head of Category",
+        "Procurement Manager",
+        "Procurement Manager",
+        "Procurement Manager"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000295",
+      "category": "Mobile Workstations / US",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "AT-013",
+        "CR-002",
+        "ER-004"
+      ],
+      "our_targets": [
+        "Procurement Manager",
+        "Engineering / CAD Lead",
+        "Head of Category"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000296",
+      "category": "Tablets / CA",
+      "our_status": "pending_approval",
+      "our_rules": [
+        "ER-002",
+        "AT-013"
+      ],
+      "our_targets": [
+        "Procurement Manager",
+        "Procurement Manager"
+      ],
+      "our_blocking": [],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000298",
+      "category": "Managed Cloud Platform Services / SG",
+      "our_status": "pending_approval",
+      "our_rules": [
+        "ER-002",
+        "AT-014",
+        "CR-005"
+      ],
+      "our_targets": [
+        "Procurement Manager",
+        "Procurement Manager",
+        "Security Architecture Team"
+      ],
+      "our_blocking": [],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000299",
+      "category": "Marketing Analytics Services / IN",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004",
+        "ER-002",
+        "AT-013"
+      ],
+      "our_targets": [
+        "Head of Category",
+        "Procurement Manager",
+        "Procurement Manager"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000300",
+      "category": "Cloud Architecture Consulting / US",
+      "our_status": "pending_approval",
+      "our_rules": [
+        "AT-014"
+      ],
+      "our_targets": [
+        "Procurement Manager"
+      ],
+      "our_blocking": [],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000303",
+      "category": "Storage Cabinets / US",
+      "our_status": "pending_approval",
+      "our_rules": [
+        "AT-013"
+      ],
+      "our_targets": [
+        "Procurement Manager"
+      ],
+      "our_blocking": [],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000304",
+      "category": "Software Development Services / IN",
+      "our_status": "cannot_proceed",
+      "our_rules": [
+        "ER-004",
+        "ER-002",
+        "AT-014",
+        "CR-007"
+      ],
+      "our_targets": [
+        "Head of Category",
+        "Procurement Manager",
+        "Procurement Manager",
+        "Category Manager"
+      ],
+      "our_blocking": [
+        "ER-004"
+      ],
+      "hist_target": ""
+    }
+  ],
+  "tn_cases": [
+    {
+      "request_id": "REQ-000005",
+      "category": "Desktop Workstations / DE",
+      "our_status": "ready_to_award",
+      "our_rules": [],
+      "our_targets": [],
+      "our_blocking": [],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000007",
+      "category": "Cloud Networking / ES",
+      "our_status": "ready_to_award",
+      "our_rules": [],
+      "our_targets": [],
+      "our_blocking": [],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000009",
+      "category": "IT Project Management Services / FR",
+      "our_status": "ready_to_award",
+      "our_rules": [],
+      "our_targets": [],
+      "our_blocking": [],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000014",
+      "category": "Office Chairs / AT",
+      "our_status": "ready_to_award",
+      "our_rules": [],
+      "our_targets": [],
+      "our_blocking": [],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000019",
+      "category": "Workstations and Desks / NL",
+      "our_status": "ready_to_award",
+      "our_rules": [],
+      "our_targets": [],
+      "our_blocking": [],
+      "hist_target": "Head of Strategic Sourcing"
+    },
+    {
+      "request_id": "REQ-000020",
+      "category": "Software Development Services / FR",
+      "our_status": "ready_to_award",
+      "our_rules": [],
+      "our_targets": [],
+      "our_blocking": [],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000031",
+      "category": "Monitors / AT",
+      "our_status": "ready_to_award",
+      "our_rules": [],
+      "our_targets": [],
+      "our_blocking": [],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000034",
+      "category": "Cloud Architecture Consulting / AT",
+      "our_status": "ready_to_award",
+      "our_rules": [],
+      "our_targets": [],
+      "our_blocking": [],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000045",
+      "category": "Cloud Networking / ES",
+      "our_status": "ready_to_award",
+      "our_rules": [],
+      "our_targets": [],
+      "our_blocking": [],
+      "hist_target": "Procurement Manager"
+    },
+    {
+      "request_id": "REQ-000046",
+      "category": "Smartphones / BE",
+      "our_status": "ready_to_award",
+      "our_rules": [],
+      "our_targets": [],
+      "our_blocking": [],
+      "hist_target": "Procurement Manager"
+    },
+    {
+      "request_id": "REQ-000057",
+      "category": "Data Engineering Services / NL",
+      "our_status": "ready_to_award",
+      "our_rules": [],
+      "our_targets": [],
+      "our_blocking": [],
+      "hist_target": "Procurement Manager"
+    },
+    {
+      "request_id": "REQ-000059",
+      "category": "Monitors / NL",
+      "our_status": "ready_to_award",
+      "our_rules": [],
+      "our_targets": [],
+      "our_blocking": [],
+      "hist_target": "Procurement Manager"
+    },
+    {
+      "request_id": "REQ-000060",
+      "category": "Meeting Room Furniture / NL",
+      "our_status": "ready_to_award",
+      "our_rules": [],
+      "our_targets": [],
+      "our_blocking": [],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000064",
+      "category": "Docking Stations / DE",
+      "our_status": "ready_to_award",
+      "our_rules": [],
+      "our_targets": [],
+      "our_blocking": [],
+      "hist_target": "Procurement Manager"
+    },
+    {
+      "request_id": "REQ-000069",
+      "category": "Managed Cloud Platform Services / ES",
+      "our_status": "ready_to_award",
+      "our_rules": [],
+      "our_targets": [],
+      "our_blocking": [],
+      "hist_target": "Procurement Manager"
+    },
+    {
+      "request_id": "REQ-000077",
+      "category": "Cloud Architecture Consulting / DE",
+      "our_status": "ready_to_award",
+      "our_rules": [],
+      "our_targets": [],
+      "our_blocking": [],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000078",
+      "category": "Cloud Architecture Consulting / BE",
+      "our_status": "ready_to_award",
+      "our_rules": [],
+      "our_targets": [],
+      "our_blocking": [],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000084",
+      "category": "Social Media Advertising / AT",
+      "our_status": "ready_to_award",
+      "our_rules": [],
+      "our_targets": [],
+      "our_blocking": [],
+      "hist_target": "Procurement Manager"
+    },
+    {
+      "request_id": "REQ-000086",
+      "category": "Replacement / Break-Fix Pool Devices / ES",
+      "our_status": "ready_to_award",
+      "our_rules": [],
+      "our_targets": [],
+      "our_blocking": [],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000093",
+      "category": "Cloud Architecture Consulting / FR",
+      "our_status": "ready_to_award",
+      "our_rules": [],
+      "our_targets": [],
+      "our_blocking": [],
+      "hist_target": "Head of Strategic Sourcing"
+    },
+    {
+      "request_id": "REQ-000095",
+      "category": "Cloud Storage / DE",
+      "our_status": "ready_to_award",
+      "our_rules": [],
+      "our_targets": [],
+      "our_blocking": [],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000096",
+      "category": "Cloud Architecture Consulting / FR",
+      "our_status": "ready_to_award",
+      "our_rules": [],
+      "our_targets": [],
+      "our_blocking": [],
+      "hist_target": "Head of Strategic Sourcing"
+    },
+    {
+      "request_id": "REQ-000099",
+      "category": "Docking Stations / NL",
+      "our_status": "ready_to_award",
+      "our_rules": [],
+      "our_targets": [],
+      "our_blocking": [],
+      "hist_target": "Procurement Manager"
+    },
+    {
+      "request_id": "REQ-000106",
+      "category": "Cloud Networking / FR",
+      "our_status": "ready_to_award",
+      "our_rules": [],
+      "our_targets": [],
+      "our_blocking": [],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000111",
+      "category": "Mobile Workstations / AT",
+      "our_status": "ready_to_award",
+      "our_rules": [],
+      "our_targets": [],
+      "our_blocking": [],
+      "hist_target": "Head of Strategic Sourcing"
+    },
+    {
+      "request_id": "REQ-000127",
+      "category": "Rugged Devices / PL",
+      "our_status": "ready_to_award",
+      "our_rules": [],
+      "our_targets": [],
+      "our_blocking": [],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000140",
+      "category": "Replacement / Break-Fix Pool Devices / AT",
+      "our_status": "ready_to_award",
+      "our_rules": [],
+      "our_targets": [],
+      "our_blocking": [],
+      "hist_target": "Head of Strategic Sourcing"
+    },
+    {
+      "request_id": "REQ-000143",
+      "category": "Accessories Bundles / ES",
+      "our_status": "ready_to_award",
+      "our_rules": [],
+      "our_targets": [],
+      "our_blocking": [],
+      "hist_target": "Head of Strategic Sourcing"
+    },
+    {
+      "request_id": "REQ-000151",
+      "category": "Desktop Workstations / PL",
+      "our_status": "ready_to_award",
+      "our_rules": [],
+      "our_targets": [],
+      "our_blocking": [],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000155",
+      "category": "Cloud Security Services / IT",
+      "our_status": "ready_to_award",
+      "our_rules": [],
+      "our_targets": [],
+      "our_blocking": [],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000157",
+      "category": "Data Engineering Services / DE",
+      "our_status": "ready_to_award",
+      "our_rules": [],
+      "our_targets": [],
+      "our_blocking": [],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000158",
+      "category": "Rugged Devices / PL",
+      "our_status": "ready_to_award",
+      "our_rules": [],
+      "our_targets": [],
+      "our_blocking": [],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000161",
+      "category": "Replacement / Break-Fix Pool Devices / IT",
+      "our_status": "ready_to_award",
+      "our_rules": [],
+      "our_targets": [],
+      "our_blocking": [],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000162",
+      "category": "Monitors / IT",
+      "our_status": "ready_to_award",
+      "our_rules": [],
+      "our_targets": [],
+      "our_blocking": [],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000165",
+      "category": "Tablets / DE",
+      "our_status": "ready_to_award",
+      "our_rules": [],
+      "our_targets": [],
+      "our_blocking": [],
+      "hist_target": "Head of Strategic Sourcing"
+    },
+    {
+      "request_id": "REQ-000170",
+      "category": "Storage Cabinets / PL",
+      "our_status": "ready_to_award",
+      "our_rules": [],
+      "our_targets": [],
+      "our_blocking": [],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000175",
+      "category": "Laptops / BE",
+      "our_status": "ready_to_award",
+      "our_rules": [],
+      "our_targets": [],
+      "our_blocking": [],
+      "hist_target": "Head of Category"
+    },
+    {
+      "request_id": "REQ-000256",
+      "category": "Cloud Storage / SG",
+      "our_status": "ready_to_award",
+      "our_rules": [],
+      "our_targets": [],
+      "our_blocking": [],
+      "hist_target": ""
+    },
+    {
+      "request_id": "REQ-000297",
+      "category": "Cloud Networking / US",
+      "our_status": "ready_to_award",
+      "our_rules": [],
+      "our_targets": [],
+      "our_blocking": [],
+      "hist_target": ""
+    }
+  ]
+}
