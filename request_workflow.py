@@ -441,22 +441,24 @@ class RequestWorkflowService:
             if field == "category_l2":
                 attempted_value = item.get("attempted_value")
                 if attempted_value:
-                    return f"{attempted_value} isn't a supplied product, try asking for a valid one."
+                    return f"{attempted_value} is not a supported product category.\nPlease provide a valid category."
                 examples = ", ".join(criteria["values"][:5])
-                prompts.append(f"what are you buying exactly? Use a category such as {examples}")
+                prompts.append(f"What product are you buying? Use a category such as {examples}.")
             elif field == "country":
-                prompts.append("which delivery country should I use? Provide the ISO-2 country code such as DE, CH, or US")
+                prompts.append("Which delivery country should I use? Please provide the ISO-2 country code, such as DE, CH, or US.")
             elif field == "quantity":
-                prompts.append("what quantity do you need?")
+                prompts.append("How many units do you need?")
             elif field == "budget_amount":
-                prompts.append("what is the budget amount?")
+                prompts.append("What is your total budget?")
             elif field == "currency":
-                prompts.append("which currency should I use? Choose EUR, CHF, or USD")
+                prompts.append("Which currency should I use? Please choose EUR, CHF, or USD.")
         if not prompts:
             field_names = ", ".join(item["field"] for item in missing_fields)
             return f"I still need critical request details before I can run supplier matching: please provide valid values for {field_names}."
-        joined = " Also tell me ".join(prompts)
-        return f"I still need critical request details before I can run supplier matching: {joined}."
+        if len(prompts) == 1:
+            return f"I still need a few critical request details before I can run supplier matching.\n\n{prompts[0]}"
+        joined = "\n\n".join(prompts)
+        return f"I still need a few critical request details before I can run supplier matching.\n{joined}\n"
 
     def _coerce_category(self, category_l1: str | None, category_l2: str | None, message: str) -> dict[str, str] | None:
         if category_l1 and category_l2:
