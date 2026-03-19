@@ -1,3 +1,6 @@
 [submodule "data"]
 	path = data
 	url = https://github.com/adriank71/ChainIQ-START-Hack-2026-
+[submodule "frontend"]
+	path = frontend
+	url = https://github.com/ArjunSingh48/chainiq-nexus
