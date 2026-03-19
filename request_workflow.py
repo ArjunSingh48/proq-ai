@@ -199,13 +199,21 @@ class RequestWorkflowService:
         if session_state:
             updated = self._update_with_moonshot(session_state["request_json"], message)
             if updated is not None:
-                merged_update = self._merge_request_data(session_state["request_json"], updated)
+                hinted = self._parse_follow_up_hint(message, session_state.get("missing_fields", []))
+                merged_update = self._merge_request_data(
+                    self._merge_request_data(session_state["request_json"], updated),
+                    hinted,
+                )
                 return ParseResult(
                     request_json=self._normalise_request(merged_update, session_state["request_json"].get("request_text", ""), message),
                     source="moonshot-update",
                 )
 
-            merged = self._merge_request_data(session_state["request_json"], self._heuristic_parse(message))
+            hinted = self._parse_follow_up_hint(message, session_state.get("missing_fields", []))
+            merged = self._merge_request_data(
+                self._merge_request_data(session_state["request_json"], self._heuristic_parse(message)),
+                hinted,
+            )
             return ParseResult(
                 request_json=self._normalise_request(merged, session_state["request_json"].get("request_text", ""), message),
                 source="heuristic-update",
@@ -682,6 +690,36 @@ class RequestWorkflowService:
                 continue
             merged[key] = value
         return merged
+
+    def _parse_follow_up_hint(self, message: str, missing_fields: list[dict[str, Any]]) -> dict[str, Any]:
+        hinted: dict[str, Any] = {}
+        field_names = {item.get("field") for item in missing_fields}
+        stripped = message.strip()
+
+        if "quantity" in field_names:
+            plain_quantity = re.fullmatch(r"\d{1,6}", stripped.replace(",", ""))
+            if plain_quantity:
+                hinted["quantity"] = int(stripped.replace(",", ""))
+
+        if "budget_amount" in field_names and "budget_amount" not in hinted:
+            budget_amount, currency = self._extract_budget(stripped)
+            if budget_amount is not None:
+                hinted["budget_amount"] = budget_amount
+                if currency:
+                    hinted["currency"] = currency
+
+        if "currency" in field_names and "currency" not in hinted:
+            currency = self._normalise_currency(stripped)
+            if currency:
+                hinted["currency"] = currency
+
+        if "country" in field_names:
+            country = self._coerce_country(stripped, None, None, stripped)
+            if country:
+                hinted["country"] = country
+                hinted["delivery_countries"] = [country]
+
+        return hinted
 
     def _normalise_currency(self, token: str | None) -> str | None:
         if not token:
