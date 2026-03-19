@@ -774,6 +774,7 @@ class SupplierEngine:
             scored.append((score, {
                 "supplier_id": sup_id,
                 "supplier_name": name,
+                "country_hq": sup.get("country_hq"),
                 "preferred": is_preferred,
                 "incumbent": is_incumbent,
                 "pricing_tier_applied": f"{p.get('min_quantity', '?')}–{p.get('max_quantity', '?')} units" if p else "N/A",
