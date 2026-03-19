@@ -350,7 +350,7 @@ class SupplierEngine:
             elif days_left <= 5:
                 add_issue(
                     "high", "tight_lead_time",
-                    f"Only {days_left} day{"" if days_left==1 else "s"} until required delivery — most suppliers need >5 days.",
+                f"Only {days_left} day{'' if days_left==1 else 's'} until required delivery — most suppliers need >5 days.",
                     "Confirm whether deadline is a hard constraint; expedited options may not be available.",
                 )
 
@@ -647,8 +647,8 @@ class SupplierEngine:
                     "escalation_id": f"ESC-{len(escalations)+1:03d}",
                     "rule": at["threshold_id"],
                     "trigger": (
-                        f"Policy {at['threshold_id']} requires {quotes_required} supplier quote{"" if quotes_required == 1 else "s"} "
-                        f"but only {len(priced)} eligible supplier{"" if len(priced) == 1 else "s"} found."
+                f"Policy {at['threshold_id']} requires {quotes_required} supplier quote{'' if quotes_required == 1 else 's'} "
+                f"but only {len(priced)} eligible supplier{'' if len(priced) == 1 else 's'} found."
                     ),
                     "escalate_to": (
                         (at.get("deviation_approval_required_from")
@@ -864,7 +864,7 @@ class SupplierEngine:
                 "One or more ranked suppliers carry policy violations"
             ),
             "detail": (
-                f"Evaluated {len(priced)} priced supplier{"" if len(priced) == 1 else "s"} in {currency}. "
+            f"Evaluated {len(priced)} priced supplier{'' if len(priced) == 1 else 's'} in {currency}. "
                 "Best-effort suppliers are marked with explicit violation reasons."
             ),
             "rule": "supplier_policy_compliance",
@@ -1081,7 +1081,7 @@ class SupplierEngine:
                 return {
                     "status": "cannot_proceed",
                     "reason": (
-                        f"{len(truly_impossible)} infeasibility issue{"" if len(truly_impossible) == 1 else "s"} cannot be resolved by requester input: "
+                f"{len(truly_impossible)} infeasibility issue{'' if len(truly_impossible) == 1 else 's'} cannot be resolved by requester input: "
                         + "; ".join(e["trigger"][:80]
                                     for e in truly_impossible)
                     ),
@@ -1188,7 +1188,7 @@ class SupplierEngine:
             ],
             "historical_awards_consulted": len(hist) > 0,
             "historical_award_note": (
-                f"{len(hist)} prior award{"" if len(hist) == 1 else "s"} found for {cat_l2} in {country}: "
+            f"{len(hist)} prior award{'' if len(hist) == 1 else 's'} found for {cat_l2} in {country}: "
                 + ", ".join(
                     f"{a['award_id']} → {a['supplier_name']} ({a['currency']} {a['total_value']})"
                     for a in hist[:5]
