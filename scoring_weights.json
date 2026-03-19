@@ -1,0 +1,60 @@
+{
+  "method": "pairwise logistic regression (Bradley-Terry)",
+  "training_pairs": 417,
+  "cv_accuracy": {
+    "mean": 0.9616,
+    "std": 0.0352
+  },
+  "ranking_accuracy": {
+    "baseline": {
+      "correct": 59,
+      "total": 189,
+      "pct": 31.2
+    },
+    "fitted_weights": {
+      "correct": 180,
+      "total": 189,
+      "pct": 95.2
+    },
+    "delta_correct": 121
+  },
+  "coefficients": {
+    "scaled": {
+      "price_ratio": 0.0,
+      "risk_score": -4.25713,
+      "quality_score": 4.597243,
+      "esg_score": -0.201009,
+      "is_preferred": -0.304739,
+      "is_incumbent": 0.004008,
+      "is_mentioned": 0.729038
+    },
+    "raw": {
+      "price_ratio": 0.0,
+      "risk_score": -0.656421,
+      "quality_score": 0.683317,
+      "esg_score": -0.030777,
+      "is_preferred": -0.395157,
+      "is_incumbent": 0.005582,
+      "is_mentioned": 1.145183
+    }
+  },
+  "normalised_weights": {
+    "price_ratio": 0.0,
+    "risk_score": 0.5732,
+    "quality_score": 0.5967,
+    "esg_score": 0.0269,
+    "is_preferred": 0.3451,
+    "is_incumbent": 0.0049,
+    "is_mentioned": 1.0
+  },
+  "supplier_engine_mapping": {
+    "_note": "In supplier_engine._rank(), score = total + risk*w_risk - quality*w_quality - esg*w_esg - total*(pref*w_pref + inc*w_inc + ment*w_ment). Weights below are normalised (max=1). Scale them to your preferred absolute range (e.g. multiply by 500).",
+    "w_risk": 0.5732,
+    "w_quality": 0.5967,
+    "w_esg": 0.0269,
+    "w_preferred": 0.3451,
+    "w_incumbent": 0.0049,
+    "w_mentioned": 1.0,
+    "price_note": "price_ratio weight=0.0000. Equivalent per-EUR weight \u2248 0.00e+00 (based on avg budget EUR 470,266)."
+  }
+}

@@ -55,6 +55,18 @@ def _load_csv(path: Path) -> list[dict]:
 # ---------------------------------------------------------------------------
 
 class SupplierEngine:
+    # Fallback weights used when scoring_weights.json is not present
+    _DEFAULT_WEIGHTS: dict[str, float] = {
+        "risk_score":    0.5732,
+        "quality_score": 0.5967,
+        "esg_score":     0.0269,
+        "is_preferred":  0.3451,
+        "is_incumbent":  0.0049,
+        "is_mentioned":  1.0000,
+    }
+    # Multiplier so score deltas are human-readable integers
+    _WEIGHT_SCALE = 100.0
+
     def __init__(self, data_dir: Path = DATA_DIR):
         self.suppliers = _load_csv(data_dir / "suppliers.csv")
         self.pricing   = _load_csv(data_dir / "pricing.csv")
@@ -65,6 +77,13 @@ class SupplierEngine:
         # Pre-built policy lookup sets
         self._preferred_set  = self._build_preferred_set()   # {(supplier_id, category_l2)}
         self._restricted_map = self._build_restricted_map()  # {(supplier_id, category_l2): [scope]}
+
+        # Load fitted scoring weights if available, else fall back to defaults
+        weights_path = Path(__file__).parent / "scoring_weights.json"
+        if weights_path.exists():
+            self._weights = _load_json(weights_path)["normalised_weights"]
+        else:
+            self._weights = self._DEFAULT_WEIGHTS
 
     # ------------------------------------------------------------------
     # Policy index builders
@@ -738,18 +757,23 @@ class SupplierEngine:
             is_mentioned = bool(preferred_mentioned and preferred_mentioned.lower() in name.lower())
             over_budget  = budget is not None and total is not None and total > budget
 
-            # Best-bad suppliers are penalised heavily so they always rank below
-            # fully compliant ones, but are sorted among themselves by quality/risk.
+            # Scoring weights fitted by pairwise logistic regression against
+            # historical_awards.csv (see fit_scoring_weights.py).
+            # Lower score = better rank.
+            w     = self._weights
+            s     = self._WEIGHT_SCALE
+            esg_w = w["esg_score"] * (2.0 if esg_req else 1.0)
+
             violation_reasons = sup.get("violation_reasons", [])
-            score = (total or 1e9) + len(violation_reasons) * 1_000_000
-            score += risk    * 200
-            score -= quality * 100
-            if esg_req:
-                score -= esg * 50
-            if total is not None:
-                if is_preferred: score -= total * 0.05
-                if is_incumbent: score -= total * 0.03
-                if is_mentioned: score -= total * 0.02
+            score = (
+                + risk              * w["risk_score"]    * s   # higher risk  → worse
+                - quality           * w["quality_score"] * s   # higher qual  → better
+                - esg               * esg_w              * s   # higher esg   → better
+                - float(is_preferred) * w["is_preferred"]  * s
+                - float(is_incumbent) * w["is_incumbent"]  * s
+                - float(is_mentioned) * w["is_mentioned"]  * s
+                + len(violation_reasons) * 1_000_000          # best-bad always last
+            )
 
             # Build human-readable note
             notes: list[str] = []
