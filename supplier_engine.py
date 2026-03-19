@@ -129,14 +129,20 @@ class SupplierEngine:
                 continue
             priced.append({**sup, "pricing": pricing_row})
 
-        if not priced and not any(e["rule"] == "ER-004" for e in escalations):
-            escalations.append({
-                "escalation_id": f"ESC-{len(escalations)+1:03d}",
-                "rule": "ER-004",
-                "trigger": "No compliant supplier with valid pricing found for this request.",
-                "escalate_to": "Head of Category",
-                "blocking": True,
-            })
+        if not priced:
+            if not any(e["rule"] == "ER-004" for e in escalations):
+                escalations.append({
+                    "escalation_id": f"ESC-{len(escalations)+1:03d}",
+                    "rule": "ER-004",
+                    "trigger": "No fully compliant supplier found. A best-effort shortlist has been generated for human review.",
+                    "escalate_to": "Head of Category",
+                    "blocking": True,
+                })
+            # Build best-bad shortlist from excluded suppliers so a human can still decide
+            priced = self._best_bad_suppliers(
+                cat_l1, cat_l2, delivery_countries, primary_country,
+                region, currency, quantity
+            )
 
         # ── 4. Policy evaluation ───────────────────────────────────────
         policy_eval = self._evaluate_policy(
@@ -149,10 +155,11 @@ class SupplierEngine:
         # Overage ≤ 20%  → validation warning only (recommendation can still proceed).
         # Overage  > 20% → blocking escalation requiring requester clarification.
         _BUDGET_TOLERANCE = 0.20
-        if budget is not None and priced:
+        priced_with_price = [s for s in priced if s.get("pricing") and s["pricing"].get("unit_price")]
+        if budget is not None and priced_with_price:
             min_total = min(
                 float(s["pricing"]["unit_price"]) * (quantity or 1)
-                for s in priced
+                for s in priced_with_price
             )
             if min_total > budget:
                 overage_pct = (min_total - budget) / budget
@@ -185,27 +192,34 @@ class SupplierEngine:
                         })
 
         # ── 6. Lead-time feasibility check ─────────────────────────────
-        if required_by and priced:
+        priced_with_lead = [
+            s for s in priced
+            if s.get("pricing") and s["pricing"].get("expedited_lead_time_days")
+        ]
+        if required_by and priced_with_lead:
             req_date   = date.fromisoformat(required_by)
             days_left  = (req_date - today).days
             all_infeasible = all(
                 int(s["pricing"]["expedited_lead_time_days"]) > days_left
-                for s in priced
+                for s in priced_with_lead
             )
             if all_infeasible and not any(e["rule"] == "ER-004" and "lead" in e["trigger"].lower() for e in escalations):
                 exp_range = (
-                    f"{min(int(s['pricing']['expedited_lead_time_days']) for s in priced)}–"
-                    f"{max(int(s['pricing']['expedited_lead_time_days']) for s in priced)} days"
+                    f"{min(int(s['pricing']['expedited_lead_time_days']) for s in priced_with_lead)}–"
+                    f"{max(int(s['pricing']['expedited_lead_time_days']) for s in priced_with_lead)} days"
                 )
+                # Non-blocking: history shows awards proceed even with infeasible lead times.
+                # The deadline is typically a desired date, not a hard veto.
                 escalations.append({
                     "escalation_id": f"ESC-{len(escalations)+1:03d}",
                     "rule": "ER-004",
                     "trigger": (
-                        f"Lead time infeasible: required delivery {required_by} "
-                        f"({days_left}d). All suppliers' expedited lead times are {exp_range}."
+                        f"Lead time advisory: required delivery {required_by} "
+                        f"({days_left}d). All suppliers' expedited lead times are {exp_range}. "
+                        f"Confirm with requester whether deadline is a hard constraint."
                     ),
                     "escalate_to": "Head of Category",
-                    "blocking": True,
+                    "blocking": False,
                 })
 
         # ── 7. Rank ────────────────────────────────────────────────────
@@ -390,6 +404,74 @@ class SupplierEngine:
         return eligible, excluded
 
     # ------------------------------------------------------------------
+    # Best-bad fallback: suppliers that failed hard filters but are the
+    # closest matches available — returned for human review when no
+    # fully compliant supplier exists.
+    # ------------------------------------------------------------------
+
+    def _best_bad_suppliers(
+        self,
+        cat_l1: str,
+        cat_l2: str,
+        delivery_countries: list[str],
+        primary_country: str,
+        region: str,
+        currency: str,
+        quantity: int | None,
+    ) -> list[dict]:
+        """
+        Returns suppliers matching the category that failed one or more filters,
+        with pricing attached where available.  Each entry is tagged with
+        `policy_compliant=False` and a `violation_reasons` list so the user
+        knows exactly what rule is being waived.
+        """
+        candidates: list[dict] = []
+        seen: set[str] = set()
+
+        for row in self.suppliers:
+            sup_id = row["supplier_id"]
+            if row["category_l1"] != cat_l1 or row["category_l2"] != cat_l2:
+                continue
+            if sup_id in seen:
+                continue
+            seen.add(sup_id)
+
+            violations: list[str] = []
+
+            if row.get("contract_status", "").lower() != "active":
+                violations.append(f"contract_status={row.get('contract_status')}")
+
+            service_regions = {r.strip() for r in row.get("service_regions", "").split(";") if r.strip()}
+            if not any(c in service_regions for c in delivery_countries):
+                violations.append(f"does not cover {delivery_countries}")
+
+            restricted_scopes = self._restricted_map.get((sup_id, cat_l2), [])
+            if (
+                "all" in restricted_scopes
+                or primary_country in restricted_scopes
+                or any(c in restricted_scopes for c in delivery_countries)
+            ):
+                violations.append(f"policy-restricted in {primary_country}")
+
+            if not violations:
+                continue  # passed all filters — not a best-bad candidate
+
+            pricing_row = self._get_pricing(sup_id, cat_l1, cat_l2, region, currency, quantity)
+            if pricing_row is None:
+                violations.append("no pricing row for this region/currency")
+
+            candidates.append({
+                **row,
+                "pricing": pricing_row or {},
+                "policy_compliant": False,
+                "violation_reasons": violations,
+            })
+
+        # Sort: fewest violations first, then by risk score ascending
+        candidates.sort(key=lambda s: (len(s["violation_reasons"]), int(s.get("risk_score") or 99)))
+        return candidates
+
+    # ------------------------------------------------------------------
     # Step 3 – Pricing lookup
     # ------------------------------------------------------------------
 
@@ -417,10 +499,25 @@ class SupplierEngine:
 
         candidates = [p for p in self.pricing if _match(p, region)]
 
-        # Bug fix: CH suppliers are usually priced under "EU" in pricing.csv.
-        # If no CH-specific rows exist, fall back to EU pricing for the same currency.
+        # Fallback 1: CH requests — most EU suppliers only have EU/EUR pricing rows.
+        # Try EU region with same currency first, then EU region with EUR (CHF→EUR cross).
         if not candidates and region == "CH":
             candidates = [p for p in self.pricing if _match(p, "EU")]
+        if not candidates and region == "CH" and currency == "CHF":
+            candidates = [
+                p for p in self.pricing
+                if (
+                    p["supplier_id"] == supplier_id
+                    and p["category_l1"] == cat_l1
+                    and p["category_l2"] == cat_l2
+                    and p["region"] == "EU"
+                    and p["currency"] == "EUR"
+                    and p.get("valid_from", "0000-00-00") <= today_str
+                    and today_str <= p.get("valid_to", "9999-99-99")
+                )
+            ]
+            for row in candidates:
+                row["_currency_note"] = "EUR pricing used as CHF proxy (no CHF-specific row available)"
 
         if not candidates:
             return None
@@ -454,7 +551,11 @@ class SupplierEngine:
         escalations: list[dict],
     ) -> dict:
         qty = quantity or 1
-        totals = [float(s["pricing"]["unit_price"]) * qty for s in priced]
+        totals = [
+            float(s["pricing"]["unit_price"]) * qty
+            for s in priced
+            if s.get("pricing") and s["pricing"].get("unit_price")
+        ]
         ref_value = min(totals) if totals else (budget or 0.0)
 
         at = self._find_approval_threshold(currency, ref_value)
@@ -618,15 +719,16 @@ class SupplierEngine:
         scored: list[tuple[float, dict]] = []
 
         for sup in priced:
-            p          = sup["pricing"]
+            p          = sup.get("pricing") or {}
             sup_id     = sup["supplier_id"]
             name       = sup["supplier_name"]
-            unit_price = float(p["unit_price"])
-            total      = round(unit_price * qty, 2)
-            std_lead   = int(p["standard_lead_time_days"])
-            exp_lead   = int(p["expedited_lead_time_days"])
-            exp_unit   = float(p["expedited_unit_price"])
-            exp_total  = round(exp_unit * qty, 2)
+            # Best-bad suppliers may have no pricing — use sentinel values
+            unit_price = float(p["unit_price"]) if p.get("unit_price") else None
+            total      = round(unit_price * qty, 2) if unit_price is not None else None
+            std_lead   = int(p["standard_lead_time_days"]) if p.get("standard_lead_time_days") else None
+            exp_lead   = int(p["expedited_lead_time_days"]) if p.get("expedited_lead_time_days") else None
+            exp_unit   = float(p["expedited_unit_price"]) if p.get("expedited_unit_price") else None
+            exp_total  = round(exp_unit * qty, 2) if exp_unit is not None else None
             quality    = int(sup.get("quality_score", 50))
             risk       = int(sup.get("risk_score",    50))
             esg        = int(sup.get("esg_score",     50))
@@ -634,27 +736,31 @@ class SupplierEngine:
             is_preferred = (sup_id, sup["category_l2"]) in self._preferred_set
             is_incumbent = bool(incumbent and incumbent.lower() in name.lower())
             is_mentioned = bool(preferred_mentioned and preferred_mentioned.lower() in name.lower())
-            over_budget  = budget is not None and total > budget
+            over_budget  = budget is not None and total is not None and total > budget
 
-            # Composite score (lower = better rank)
-            #   price normalised · risk penalty · quality/esg reward · relationship bonuses
-            score = total
+            # Best-bad suppliers are penalised heavily so they always rank below
+            # fully compliant ones, but are sorted among themselves by quality/risk.
+            violation_reasons = sup.get("violation_reasons", [])
+            score = (total or 1e9) + len(violation_reasons) * 1_000_000
             score += risk    * 200
             score -= quality * 100
             if esg_req:
                 score -= esg * 50
-            if is_preferred: score -= total * 0.05
-            if is_incumbent: score -= total * 0.03
-            if is_mentioned: score -= total * 0.02
+            if total is not None:
+                if is_preferred: score -= total * 0.05
+                if is_incumbent: score -= total * 0.03
+                if is_mentioned: score -= total * 0.02
 
             # Build human-readable note
             notes: list[str] = []
+            if violation_reasons:
+                notes.append(f"[BEST-EFFORT — policy violations: {'; '.join(violation_reasons)}]")
             if is_preferred: notes.append("Preferred supplier.")
             if is_incumbent: notes.append("Incumbent supplier.")
             if is_mentioned: notes.append("Requester's stated preference.")
             if over_budget:
                 notes.append(f"Total {total:,.2f} exceeds budget {budget:,.2f}.")
-            if days_left is not None:
+            if days_left is not None and std_lead is not None and exp_lead is not None:
                 if std_lead <= days_left:
                     notes.append(f"Standard lead time {std_lead}d meets deadline.")
                 elif exp_lead <= days_left:
@@ -670,7 +776,7 @@ class SupplierEngine:
                 "supplier_name": name,
                 "preferred": is_preferred,
                 "incumbent": is_incumbent,
-                "pricing_tier_applied": f"{p['min_quantity']}–{p['max_quantity']} units",
+                "pricing_tier_applied": f"{p.get('min_quantity', '?')}–{p.get('max_quantity', '?')} units" if p else "N/A",
                 "unit_price_eur": unit_price,
                 "total_price_eur": total,
                 "standard_lead_time_days": std_lead,
@@ -680,8 +786,9 @@ class SupplierEngine:
                 "quality_score": quality,
                 "risk_score": risk,
                 "esg_score": esg,
-                "policy_compliant": True,
-                "covers_delivery_country": True,
+                "policy_compliant": not bool(violation_reasons),
+                "violation_reasons": violation_reasons or None,
+                "covers_delivery_country": not any("cover" in v for v in violation_reasons),
                 "recommendation_note": " ".join(notes) if notes else "No issues.",
             }))
 
@@ -708,7 +815,10 @@ class SupplierEngine:
 
         if hard_blockers:
             top = shortlist[0] if shortlist else None
-            min_total = min((s["total_price_eur"] for s in shortlist), default=None)
+            min_total = min(
+                (s["total_price_eur"] for s in shortlist if s["total_price_eur"] is not None),
+                default=None,
+            )
 
             # ER-001: missing/insufficient requester input — award is possible once provided.
             # ER-004: no compliant suppliers or infeasible lead time — truly impossible.
