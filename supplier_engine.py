@@ -909,7 +909,7 @@ class SupplierEngine:
             return {
                 "status": "needs_clarification",
                 "reason": (
-                    f"{len(clarification_needed)} piece(s) of requester input required before sourcing can proceed."
+                    f"{len(clarification_needed)} piece{"" if len(clarification_needed) == 1 else "s"} of requester input required before sourcing can proceed."
                 ),
                 "clarifications_needed": clarifications_needed,
                 "preferred_supplier_if_clarified": top["supplier_name"] if top else None,
