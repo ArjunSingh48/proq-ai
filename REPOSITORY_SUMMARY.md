@@ -223,7 +223,7 @@ python validate_engine.py
 # Outputs: validate_report.json + console summary
 ```
 
-### Analyze Escalation Decisions
+### Analyse Escalation Decisions
 ```bash
 python escalation_stats.py
 # Confusion matrix: our escalations vs. history

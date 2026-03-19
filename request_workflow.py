@@ -99,6 +99,16 @@ COUNTRY_ALIASES = {
     **{name.lower(): code for code, name in COUNTRY_NAMES.items()},
     "uk": "GB",
     "uae": "UAE",
+    "united arab emirates": "UAE",
+    "usa": "US",
+    "united states of america": "US",
+    "us": "US",
+    "u.s.": "US",
+    "u.s.a.": "US",
+    "great britain": "GB",
+    "england": "GB",
+    "south korea": "KR",
+    "korea, south": "KR",
     "swiss": "CH",
 }
 
@@ -374,7 +384,7 @@ class RequestWorkflowService:
         budget_amount = self._coerce_float(parsed.get("budget_amount"))
         preferred = self._find_supplier_name(parsed.get("preferred_supplier_mentioned"))
         incumbent = self._find_supplier_name(parsed.get("incumbent_supplier") or "")
-        delivery_countries = parsed.get("delivery_countries") or ([country] if country else [])
+        delivery_countries = self._coerce_delivery_countries(parsed.get("delivery_countries"), country)
 
         return {
             "request_id": request_id,
@@ -423,13 +433,13 @@ class RequestWorkflowService:
             if field_name == "category_l2" and value not in criteria.get("values", []):
                 missing.append({"field": field_name, "reason": "invalid", "criteria": criteria, "attempted_value": value})
             elif field_name == "country" and value not in criteria.get("values", []):
-                missing.append({"field": field_name, "reason": "invalid", "criteria": criteria})
+                missing.append({"field": field_name, "reason": "invalid", "criteria": criteria, "attempted_value": value})
             elif field_name == "currency" and value not in criteria.get("values", []):
-                missing.append({"field": field_name, "reason": "invalid", "criteria": criteria})
+                missing.append({"field": field_name, "reason": "invalid", "criteria": criteria, "attempted_value": value})
             elif field_name == "quantity" and not self._is_positive_number(value):
-                missing.append({"field": field_name, "reason": "invalid", "criteria": criteria})
+                missing.append({"field": field_name, "reason": "invalid", "criteria": criteria, "attempted_value": value})
             elif field_name == "budget_amount" and not self._is_positive_number(value):
-                missing.append({"field": field_name, "reason": "invalid", "criteria": criteria})
+                missing.append({"field": field_name, "reason": "invalid", "criteria": criteria, "attempted_value": value})
         return missing
 
     def _build_follow_up_question(self, missing_fields: list[dict[str, Any]]) -> str:
@@ -444,13 +454,32 @@ class RequestWorkflowService:
                 examples = ", ".join(criteria["values"][:5])
                 prompts.append(f"What product are you buying? Use a category such as {examples}.")
             elif field == "country":
-                prompts.append("Which delivery country should I use?")
+                attempted_value = item.get("attempted_value")
+                if item.get("reason") == "invalid" and attempted_value:
+                    prompts.append(
+                        f"I interpreted the delivery country as {attempted_value}, but that country is not supported by the current policy dataset."
+                    )
+                else:
+                    prompts.append("Which delivery country should I use?")
             elif field == "quantity":
-                prompts.append("How many units do you need?")
+                attempted_value = item.get("attempted_value")
+                prompts.append(
+                    f"I could not use the quantity value {attempted_value}." if item.get("reason") == "invalid" and attempted_value
+                    else "How many units do you need?"
+                )
             elif field == "budget_amount":
-                prompts.append("What is your total budget?")
+                attempted_value = item.get("attempted_value")
+                prompts.append(
+                    f"I could not use the budget value {attempted_value}." if item.get("reason") == "invalid" and attempted_value
+                    else "What is your total budget?"
+                )
             elif field == "currency":
-                prompts.append("Which currency should I use? Please choose EUR, CHF, or USD.")
+                attempted_value = item.get("attempted_value")
+                prompts.append(
+                    f"I interpreted the currency as {attempted_value}, but only EUR, CHF, or USD are supported."
+                    if item.get("reason") == "invalid" and attempted_value
+                    else "Which currency should I use? Please choose EUR, CHF, or USD."
+                )
         if not prompts:
             field_names = ", ".join(item["field"] for item in missing_fields)
             return f"I still need critical request details before I can run supplier matching: please provide valid values for {field_names}."
@@ -474,9 +503,54 @@ class RequestWorkflowService:
         for candidate in [country, *(delivery_countries or []), site]:
             if not candidate:
                 continue
-            resolved = COUNTRY_ALIASES.get(str(candidate).strip().lower())
+            resolved = self._resolve_country_code(candidate)
             if resolved:
                 return self._request_country_code(resolved)
+        return None
+
+    def _coerce_delivery_countries(self, countries: Any, fallback_country: str | None) -> list[str]:
+        if isinstance(countries, str):
+            raw_candidates = [countries]
+        elif isinstance(countries, list):
+            raw_candidates = countries
+        else:
+            raw_candidates = []
+
+        normalised: list[str] = []
+        for candidate in raw_candidates:
+            resolved = self._resolve_country_code(candidate)
+            if not resolved:
+                continue
+            request_code = self._request_country_code(resolved)
+            if request_code not in normalised:
+                normalised.append(request_code)
+
+        if not normalised and fallback_country:
+            return [fallback_country]
+        return normalised
+
+    def _resolve_country_code(self, candidate: Any) -> str | None:
+        if not isinstance(candidate, str):
+            return None
+        cleaned = candidate.strip().lower()
+        if not cleaned:
+            return None
+        cleaned = re.sub(r"[()]+", " ", cleaned)
+        cleaned = re.sub(r"[.,]", "", cleaned)
+        cleaned = re.sub(r"\s+", " ", cleaned).strip()
+        if cleaned in CITY_TO_COUNTRY:
+            return CITY_TO_COUNTRY[cleaned]
+        exact = COUNTRY_ALIASES.get(cleaned)
+        if exact:
+            return exact
+
+        # Accept phrases like "deliver to Zurich office" or "ship to Switzerland".
+        for city, code in sorted(CITY_TO_COUNTRY.items(), key=lambda item: len(item[0]), reverse=True):
+            if re.search(rf"\b{re.escape(city)}\b", cleaned):
+                return code
+        for alias, code in sorted(COUNTRY_ALIASES.items(), key=lambda item: len(item[0]), reverse=True):
+            if re.search(rf"\b{re.escape(alias)}\b", cleaned):
+                return code
         return None
 
     def _extract_requested_product_phrase(self, message: str | None) -> str | None:
