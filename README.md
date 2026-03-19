@@ -9,5 +9,5 @@ Frontend and backend are executed separately (in 2 separate shells):
 
 2. Backend:
    ```
-   python -m uvicorn fastapi_app:app --reload --port 8000 --log-level debug
+   python -m uvicorn app:app --reload --port 8000 --log-level debug
    ```
