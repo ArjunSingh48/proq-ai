@@ -844,6 +844,11 @@ class RequestWorkflowService:
                 "riskScore": self._to_number(supplier.get("risk_score") or row.get("risk_score")),
                 "unitPrice": supplier.get("unit_price_eur"),
                 "totalPrice": supplier.get("total_price_eur"),
+                "pricingMessage": (
+                    supplier.get("pricing_note")
+                    or (supplier.get("pricing") or {}).get("_pricing_note")
+                    or (supplier.get("pricing") or {}).get("_currency_note")
+                ),
                 "preferred": bool(supplier.get("preferred")),
                 "incumbent": bool(supplier.get("incumbent")),
                 "policyCompliant": bool(supplier.get("policy_compliant", True)),
@@ -870,6 +875,7 @@ class RequestWorkflowService:
                 "riskScore": self._to_number(row.get("risk_score")),
                 "unitPrice": None,
                 "totalPrice": None,
+                "pricingMessage": "No valid pricing row for this supplier in the requested region and currency.",
                 "preferred": row.get("preferred_supplier") == "True",
                 "incumbent": False,
                 "policyCompliant": False,

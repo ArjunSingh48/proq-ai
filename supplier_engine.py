@@ -676,7 +676,14 @@ class SupplierEngine:
                 continue  # passed all filters — not a best-bad candidate
 
             pricing_row = self._get_pricing(
-                sup_id, cat_l1, cat_l2, region, currency, quantity)
+                sup_id,
+                cat_l1,
+                cat_l2,
+                region,
+                currency,
+                quantity,
+                allow_region_fallback=True,
+            )
             if pricing_row is None:
                 violations.append("no pricing row for this region/currency")
             total_value = float(pricing_row["unit_price"]) * (quantity or 1) if pricing_row and pricing_row.get("unit_price") else None
@@ -721,6 +728,7 @@ class SupplierEngine:
         region: str,
         currency: str,
         quantity: int | None,
+        allow_region_fallback: bool = False,
     ) -> dict | None:
         today_str = str(self._today)
 
@@ -754,6 +762,26 @@ class SupplierEngine:
             ]
             for row in candidates:
                 row["_currency_note"] = "EUR pricing used as CHF proxy (no CHF-specific row available)"
+
+        # Best-effort shortlist generation can use indicative pricing from a
+        # different region when there is no exact regional match but the
+        # currency and quantity tier still line up.
+        if not candidates and allow_region_fallback:
+            candidates = [
+                p for p in self.pricing
+                if (
+                    p["supplier_id"] == supplier_id
+                    and _matches_category_scope(p, cat_l1, cat_l2)
+                    and p["currency"] == currency
+                    and p.get("valid_from", "0000-00-00") <= today_str
+                    and today_str <= p.get("valid_to", "9999-99-99")
+                )
+            ]
+            for row in candidates:
+                row["_pricing_note"] = (
+                    f"Indicative {row.get('region', 'unknown')} pricing used; "
+                    f"no {region} price row available."
+                )
 
         if not candidates:
             return None
@@ -1245,6 +1273,7 @@ class SupplierEngine:
                 "pricing_tier_applied": f"{p.get('min_quantity', '?')}–{p.get('max_quantity', '?')} units" if p else "N/A",
                 "unit_price_eur": unit_price,
                 "total_price_eur": total,
+                "pricing_note": p.get("_pricing_note") or p.get("_currency_note"),
                 "standard_lead_time_days": std_lead,
                 "expedited_lead_time_days": exp_lead,
                 "expedited_unit_price_eur": exp_unit,
