@@ -171,7 +171,7 @@ class RequestWorkflowService:
 
         if missing_fields:
             total_ms = (perf_counter() - run_started) * 1000
-            question = self._build_follow_up_question(missing_fields)
+            question = self._build_follow_up_question(missing_fields, parse_result.request_json)
             print(
                 f"[workflow.timing] session_id={session_id} stage=clarification "
                 f"parser={parse_result.source} parse_ms={parse_ms:.1f} total_ms={total_ms:.1f}"
@@ -233,10 +233,139 @@ class RequestWorkflowService:
             },
         }
 
+    def _try_fast_parse(self, message: str, session_state: dict[str, Any]) -> ParseResult | None:
+        missing = session_state.get("missing_fields", [])
+        if not missing:
+            return None
+        missing_names = {item["field"] for item in missing}
+        text = message.strip()
+        updates: dict[str, Any] = {}
+
+        # --- quantity (must match before budget so we can exclude quantity numbers from budget matching) ---
+        qty_span: tuple[int, int] | None = None
+        if "quantity" in missing_names:
+            # Prefer number followed by a unit keyword
+            qty_match = re.search(
+                r"(\d[\d,]*)\s*(?:units?|devices?|sets?|pcs?|pieces?|licenses?|seats?|subscriptions?|instances?)\b",
+                text, re.IGNORECASE,
+            )
+            if qty_match:
+                qty = self._coerce_int(qty_match.group(1))
+                if qty and qty > 0:
+                    updates["quantity"] = qty
+                    qty_span = qty_match.span()
+
+        # --- budget (+ optional currency) ---
+        if "budget_amount" in missing_names:
+            # Try contextual patterns first: "budget is X", currency symbols, k/m suffixes
+            budget_patterns = [
+                r"budget\s+(?:is|of|:)?\s*[€$]?\s*([\d,]+(?:\.\d+)?)\s*([kKmM])?\s*(eur(?:o|os)?|usd|chf|dollars?)?",
+                r"[€$]\s*([\d,]+(?:\.\d+)?)\s*([kKmM])?\s*(eur(?:o|os)?|usd|chf|dollars?)?",
+                r"([\d,]+(?:\.\d+)?)\s*([kKmM])\s*(eur(?:o|os)?|usd|chf|dollars?)?",
+                r"([\d,]+(?:\.\d+)?)\s*()\s*(eur(?:o|os)?|usd|chf|dollars?)",
+            ]
+            for pattern in budget_patterns:
+                for m in re.finditer(pattern, text, re.IGNORECASE):
+                    # Skip if this overlaps with the quantity match
+                    if qty_span and not (m.end() <= qty_span[0] or m.start() >= qty_span[1]):
+                        continue
+                    raw_num = m.group(1).replace(",", "")
+                    amount = float(raw_num)
+                    multiplier = (m.group(2) or "").lower()
+                    if multiplier == "k":
+                        amount *= 1000
+                    elif multiplier == "m":
+                        amount *= 1_000_000
+                    if amount > 0:
+                        updates["budget_amount"] = amount
+                    cur_token = m.group(3)
+                    if cur_token:
+                        cur = self._normalise_currency(cur_token)
+                        if cur:
+                            updates["currency"] = cur
+                    else:
+                        # Check for € or $ prefix
+                        prefix_char = text[m.start():m.start()+1] if m.start() < len(text) else ""
+                        if prefix_char == "€":
+                            updates["currency"] = "EUR"
+                        elif prefix_char == "$":
+                            updates["currency"] = "USD"
+                    break
+                if "budget_amount" in updates:
+                    break
+
+            # Fallback: use a bare number ONLY when it's the only number in the entire message
+            if "budget_amount" not in updates:
+                all_numbers = list(re.finditer(r"[\d,]+(?:\.\d+)?", text))
+                if len(all_numbers) == 1:
+                    raw_num = all_numbers[0].group(0).replace(",", "")
+                    amount = float(raw_num)
+                    if amount > 0:
+                        updates["budget_amount"] = amount
+
+        # --- currency (standalone) ---
+        if "currency" in missing_names and "currency" not in updates:
+            for word in re.split(r"[\s,.\-;]+", text):
+                cur = self._normalise_currency(word)
+                if cur:
+                    updates["currency"] = cur
+                    break
+
+        # --- country ---
+        if "country" in missing_names:
+            # Split on commas/semicolons but not periods (preserves "U.S.", "U.K.")
+            for candidate in re.split(r"[,;]+", text):
+                candidate = candidate.strip().rstrip(".")
+                # Strip common prefixes
+                candidate = re.sub(r"^(?:deliver(?:y|ed)?\s+(?:to|in)|ship(?:ped)?\s+to|to)\s+", "", candidate, flags=re.IGNORECASE).strip()
+                # Strip numbers and unit words that might be in the same segment
+                candidate = re.sub(r"\d[\d,]*\s*(?:units?|devices?|sets?|pcs?|pieces?|licenses?|seats?)?\s*", "", candidate, flags=re.IGNORECASE).strip()
+                if not candidate or re.match(r"^[\d\s.,]+$", candidate):
+                    continue
+                resolved = self._resolve_country_code(candidate)
+                if resolved:
+                    updates["country"] = self._request_country_code(resolved)
+                    break
+
+        # --- category ---
+        if "category_l2" in missing_names:
+            for candidate in re.split(r"[,.\-;]+", text):
+                coerced = self._coerce_category(None, candidate.strip())
+                if coerced:
+                    updates["category_l1"] = coerced["category_l1"]
+                    updates["category_l2"] = coerced["category_l2"]
+                    break
+
+        if not updates:
+            return None
+
+        # Use fast parse if it resolved at least one field and the message is short/simple,
+        # or if it resolved all missing fields.
+        resolved_fields = set(updates.keys())
+        all_resolved = (missing_names - {"currency"}).issubset(resolved_fields) if "budget_amount" in missing_names and "budget_amount" not in resolved_fields else missing_names.issubset(resolved_fields)
+        word_count = len(text.split())
+        # Short answers (≤6 words) are safe even if they only resolve one field
+        # Longer answers must resolve everything or fall back to LLM
+        if not all_resolved and word_count > 6:
+            return None
+
+        merged = self._merge_request_data(session_state["request_json"], updates)
+        return ParseResult(
+            request_json=self._normalise_request(merged, session_state["request_json"].get("request_text", ""), message),
+            source="fast-parse",
+        )
+
     def _parse_request(self, message: str, session_state: dict[str, Any] | None) -> ParseResult:
         if session_state:
+            fast = self._try_fast_parse(message, session_state)
+            if fast is not None:
+                return fast
             updated = self._update_with_moonshot(session_state["request_json"], message)
             if updated is not None:
+                # Don't let the LLM invent a currency the user didn't mention
+                if not session_state["request_json"].get("currency") and updated.get("currency"):
+                    if not self._message_mentions_currency(message):
+                        updated["currency"] = None
                 merged_update = self._merge_request_data(session_state["request_json"], updated)
                 return ParseResult(
                     request_json=self._normalise_request(merged_update, session_state["request_json"].get("request_text", ""), message),
@@ -246,6 +375,10 @@ class RequestWorkflowService:
 
         moonshot_result = self._parse_with_moonshot(message)
         if moonshot_result is not None:
+            # Don't let the LLM invent a currency the user didn't mention
+            if moonshot_result.get("currency"):
+                if not self._message_mentions_currency(message):
+                    moonshot_result["currency"] = None
             return ParseResult(
                 request_json=self._normalise_request(moonshot_result, message),
                 source="moonshot",
@@ -383,7 +516,7 @@ class RequestWorkflowService:
         combined_message = original_message if not follow_up_message else f"{original_message}\nFollow-up: {follow_up_message}"
         category = self._coerce_category(parsed.get("category_l1"), parsed.get("category_l2"))
         country = self._coerce_country(parsed.get("country"), parsed.get("site"), parsed.get("delivery_countries"))
-        currency = self._normalise_currency_value(parsed.get("currency")) or CURRENCY_BY_COUNTRY.get(country, "EUR")
+        currency = self._normalise_currency_value(parsed.get("currency"))
         request_id = parsed.get("request_id") or f"REQ-{uuid.uuid4().hex[:8].upper()}"
         title = parsed.get("title") or (f"{category['category_l2']} request" if category else "Procurement request")
 
@@ -408,7 +541,7 @@ class RequestWorkflowService:
             "category_l2": category["category_l2"] if category else None,
             "title": title,
             "request_text": combined_message.strip(),
-            "currency": currency or "EUR",
+            "currency": currency,
             "budget_amount": budget_amount,
             "quantity": quantity,
             "unit_of_measure": parsed.get("unit_of_measure") or (category["typical_unit"] if category else None),
@@ -447,9 +580,23 @@ class RequestWorkflowService:
                 missing.append({"field": field_name, "reason": "invalid", "criteria": criteria, "attempted_value": value})
             elif field_name == "budget_amount" and not self._is_positive_number(value):
                 missing.append({"field": field_name, "reason": "invalid", "criteria": criteria, "attempted_value": value})
+        missing_fields = {item["field"] for item in missing}
+        if "currency" in missing_fields and "budget_amount" in missing_fields:
+            missing = [item for item in missing if item["field"] != "currency"]
         return missing
 
-    def _build_follow_up_question(self, missing_fields: list[dict[str, Any]]) -> str:
+    def _get_typical_unit(self, request_json: dict[str, Any]) -> str | None:
+        l1 = request_json.get("category_l1", "")
+        l2 = request_json.get("category_l2", "")
+        for row in self.categories:
+            if l1 and l2 and row["category_l1"].lower() == str(l1).lower() and row["category_l2"].lower() == str(l2).lower():
+                return row.get("typical_unit") or None
+            if l2 and not l1 and row["category_l2"].lower() == str(l2).lower():
+                return row.get("typical_unit") or None
+        return None
+
+    def _build_follow_up_question(self, missing_fields: list[dict[str, Any]], request_json: dict[str, Any] | None = None) -> str:
+        typical_unit = self._get_typical_unit(request_json) if request_json else None
         prompts: list[str] = []
         for item in missing_fields:
             field = item["field"]
@@ -470,10 +617,13 @@ class RequestWorkflowService:
                     prompts.append("Which delivery country should I use?")
             elif field == "quantity":
                 attempted_value = item.get("attempted_value")
-                prompts.append(
-                    f"I could not use the quantity value {attempted_value}." if item.get("reason") == "invalid" and attempted_value
-                    else "How many units do you need?"
-                )
+                if item.get("reason") == "invalid" and attempted_value:
+                    prompts.append(f"I could not use the quantity value {attempted_value}.")
+                elif typical_unit:
+                    unit_display = typical_unit.replace("_", " ")
+                    prompts.append(f"How many {unit_display}s do you need?")
+                else:
+                    prompts.append("How many units do you need?")
             elif field == "budget_amount":
                 attempted_value = item.get("attempted_value")
                 prompts.append(
@@ -483,17 +633,14 @@ class RequestWorkflowService:
             elif field == "currency":
                 attempted_value = item.get("attempted_value")
                 prompts.append(
-                    f"I interpreted the currency as {attempted_value}, but only EUR, CHF, or USD are supported."
+                    f"I interpreted the currency as {attempted_value}, but we can only place orders in EUR, CHF, or USD"
                     if item.get("reason") == "invalid" and attempted_value
-                    else "Which currency should I use? Please choose EUR, CHF, or USD."
+                    else "Which currency should I use?"
                 )
         if not prompts:
             field_names = ", ".join(item["field"] for item in missing_fields)
             return f"I still need critical request details before I can run supplier matching: please provide valid values for {field_names}."
-        if len(prompts) == 1:
-            return f"I still need a few critical request details before I can run supplier matching.\n\n{prompts[0]}"
-        joined = "\n\n".join(prompts)
-        return f"I still need a few critical request details before I can run supplier matching.\n{joined}\n"
+        return "\n\n".join(prompts)
 
     def _coerce_category(self, category_l1: str | None, category_l2: str | None) -> dict[str, str] | None:
         if category_l1 and category_l2:
@@ -702,6 +849,16 @@ class RequestWorkflowService:
         if lowered == "gbp":
             return "GBP"
         return None
+
+    def _message_mentions_currency(self, message: str) -> bool:
+        lowered = message.lower()
+        if re.search(r"[€$]", message):
+            return True
+        currency_terms = {"eur", "euro", "euros", "usd", "dollar", "dollars", "chf", "gbp", "franc", "francs", "pound", "pounds", "sterling"}
+        for word in re.split(r"[\s,.\-;]+", lowered):
+            if word in currency_terms:
+                return True
+        return False
 
     def _normalise_currency_value(self, value: Any) -> str | None:
         if isinstance(value, str):
