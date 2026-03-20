@@ -204,7 +204,14 @@ class RequestWorkflowService:
         engine_output = self.engine.process(parse_result.request_json)
         engine_ms = (perf_counter() - engine_started) * 1000
         ui_suppliers = self._build_ui_suppliers(engine_output)
-        self.pending_sessions.pop(session_id, None)
+        self.pending_sessions[session_id] = {
+            "request_json": parse_result.request_json,
+            "messages": [
+                *(session_state.get("messages", []) if session_state else []),
+                {"role": "user", "content": message},
+            ],
+            "missing_fields": [],
+        }
         total_ms = (perf_counter() - run_started) * 1000
         print(
             f"[workflow.timing] session_id={session_id} stage=completed "
