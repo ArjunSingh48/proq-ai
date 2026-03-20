@@ -1,5 +1,8 @@
 {
   "framework": null,
+  "git": {
+    "submodules": true
+  },
   "buildCommand": "cd frontend && npm install && npm run build",
   "outputDirectory": "frontend/dist",
   "rewrites": [

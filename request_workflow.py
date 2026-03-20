@@ -16,7 +16,7 @@ from supplier_engine import SupplierEngine
 
 ROOT_DIR = Path(__file__).parent
 DATA_DIR = ROOT_DIR / "data" / "data"
-REQUEST_JSON_PATH = ROOT_DIR / "request.json"
+REQUEST_JSON_PATH = Path("/tmp/request.json") if os.environ.get("VERCEL") else ROOT_DIR / "request.json"
 CRITERIA_PATH = ROOT_DIR / "criteria.json"
 
 COUNTRY_NAMES = {
