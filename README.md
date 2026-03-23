@@ -1,3 +1,6 @@
+Deployed on vercel: [proqai.shop](https://proqai.shop/)
+
+
 How to run:
 
 ## Local development
